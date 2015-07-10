@@ -1,26 +1,16 @@
 import React from 'react';
 import Element from '../components/Element';
+import ElementMesh from '../components/ElementMesh';
 
-const elements = [
-  {
-    key: 1,
-    title:'il fait beau',
-    desc: 'un champ bien labouré',
-    url: 'http://eg0.me/uploads/ego/orig/9352.jpg'
-  }, {
-    key: 2,
-    title: 'coucou',
-    url: 'http://eg0.me/uploads/ego/orig/9352.jpg'
-  }
-]
-
+import {elements} from '../models/faked.js';
+console.log(elements);
 export default class Home {
   render() {
     return (
       <div>
         <h2>The Homepage</h2>
           {elements.map( element =>
-            <Element title={element.title} desc={element.desc} key={element.key} src={element.url}></Element>
+            element.kind == 'image' ? <Element element={element} root={true}></Element> : <ElementMesh element={element} root={true}></ElementMesh>
           )}
       </div>
     );
