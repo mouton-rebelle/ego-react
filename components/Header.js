@@ -1,24 +1,18 @@
-import React, { PropTypes } from 'react';
-import TodoTextInput from './TodoTextInput';
+import React from 'react';
+import {Link} from 'react-router';
+
+import '../sass/components/header.scss';
 
 export default class Header {
-  static propTypes = {
-    addTodo: PropTypes.func.isRequired
-  };
-
-  handleSave(text) {
-    if (text.length !== 0) {
-      this.props.addTodo(text);
-    }
-  }
-
   render() {
     return (
       <header className='header'>
-          <h1>todos</h1>
-          <TodoTextInput newTodo={true}
-                         onSave={::this.handleSave}
-                         placeholder='What needs to be done?' />
+        <h1 className="logo header__logo">EG<span className="logo__alt">0</span></h1>
+        <ul className="nav head-nav">
+           <li className="head-nav__item"><Link  className="head-nav__item__link" to="/">Home</Link></li>
+           <li className="head-nav__item"><Link  className="head-nav__item__link" to="/search">Search</Link></li>
+           <li className="head-nav__item"><Link  className="head-nav__item__link" to="/about">About</Link></li>
+         </ul>
       </header>
     );
   }
