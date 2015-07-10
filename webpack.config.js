@@ -1,9 +1,10 @@
 var path = require('path');
 var webpack = require('webpack');
 var WebpackErrorNotificationPlugin = require('webpack-error-notification');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'eval!source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
@@ -17,6 +18,7 @@ module.exports = {
   plugins: [
     new WebpackErrorNotificationPlugin('darwin'),
     new webpack.HotModuleReplacementPlugin(),
+    new ExtractTextPlugin("styles.css")
     // new webpack.NoErrorsPlugin()
   ],
   resolve: {
@@ -27,13 +29,15 @@ module.exports = {
       test: /\.js$/,
       loaders: ['react-hot', 'babel'],
       exclude: /node_modules/
-    }, {
-      test: /\.css?$/,
-      loaders: ['style', 'raw']
     },
     {
-      test: /\.scss$/,
-      loader: 'style!css!sass?sourceMap&outputStyle=expanded'
-    }]
+        test: /\.scss$/,
+        loader: 'style-loader!css?sourceMap!sass?sourceMap'
+    },
+    // {
+    //   test: /\.css?$/,
+    //   loaders: ['style', 'raw']
+    // }
+    ]
   }
 };
