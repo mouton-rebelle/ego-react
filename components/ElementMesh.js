@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
-import '../sass/components/element.scss';
+import Element from './Element';
 
-export default class Element {
+export default class ElementMesh {
   static propTypes = {
-    element: PropTypes.object.isRequired,
+    element: PropTypes.instanceOf('ElementMesh').isRequired,
+    root: React.PropTypes.bool.isRequired,
   }
 
   render() {
@@ -17,7 +18,11 @@ export default class Element {
           <h3 className="element__info__title">{element.info.title}</h3>
           { element.info.desc ? <div className="element__info__desc">{element.info.desc}</div> : null }
         </div>
-        <img className="element__image" src={element.url} />
+        <div className="element__mesh">
+          { element.content.map( child =>
+            child.kind == 'image' ? <Element element={child} root={false}></Element> : <ElementMesh element={child} root={false}></ElementMesh>
+          )}
+        </div>
       </div>
     );
   }

@@ -1,10 +1,8 @@
 @import '../common/variables';
 
 .element{
-  border:1px solid $light-grey;
-  padding:15px;
-  margin: 15px;
   &__info{
+    display: none;
     &__title{
       font-family: 'Roboto Mono';
       font-weight: 300;
@@ -15,5 +13,16 @@
   &__image{
     display: inline-block;
     max-width: 100%;
+  }
+  &__mesh{
+    display: flex;
+  }
+  &--root{
+    border:1px solid $light-grey;
+    padding:15px;
+    margin: 15px;
+    > .element__info{
+      display: block;
+    }
   }
 }
