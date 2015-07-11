@@ -1,4 +1,4 @@
-export default class ElementInfo{
+export default class ElementInfoData{
   constructor(title, desc){
     this._title = title;
     this._desc  = desc;

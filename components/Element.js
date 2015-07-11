@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import '../sass/components/element.scss';
+import ElementInfo from './ElementInfo';
+import ElementImageData from '../models/ElementImageData.js';
 
 export default class Element {
   static propTypes = {
-    element: PropTypes.object.isRequired,
+    element: PropTypes.instanceOf(ElementImageData).isRequired,
   }
 
   render() {
@@ -13,10 +15,7 @@ export default class Element {
     const elementClass = cx('element', {'element--root':root});
     return (
       <div className={elementClass} style={elementStyle}>
-        <div className="element__info">
-          <h3 className="element__info__title">{element.info.title}</h3>
-          { element.info.desc ? <div className="element__info__desc">{element.info.desc}</div> : null }
-        </div>
+        <ElementInfo info={element.info} root={root} />
         <img className="element__image" src={element.url} />
       </div>
     );

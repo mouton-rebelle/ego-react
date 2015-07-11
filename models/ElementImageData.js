@@ -1,4 +1,4 @@
-export default class ElementImage{
+export default class ElementImageData{
   constructor(url, ratio, info = null){
     this._url    = url;
     this._ratio  = ratio;

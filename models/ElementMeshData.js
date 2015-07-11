@@ -1,4 +1,4 @@
-export default class ElementMesh{
+export default class ElementMeshData{
   constructor(horizontal, ratio, content, info = null){
     this._horizontal = horizontal;
     this._ratio      = ratio;
