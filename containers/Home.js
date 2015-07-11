@@ -9,8 +9,8 @@ export default class Home {
     return (
       <div>
         <h2>The Homepage</h2>
-          {elements.map( element =>
-            element.kind == 'image' ? <Element element={element} root={true}></Element> : <ElementMesh element={element} root={true}></ElementMesh>
+          {elements.map( (element, index) =>
+            element.kind == 'image' ? <Element key={index} element={element} root={true}></Element> : <ElementMesh key={index} element={element} root={true}></ElementMesh>
           )}
       </div>
     );
