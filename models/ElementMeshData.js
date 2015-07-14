@@ -2,7 +2,7 @@ export default class ElementMeshData{
   constructor(horizontal, ratio, content, info = null){
     this._horizontal = horizontal;
     this._ratio      = ratio;
-    this._content   = content;
+    this._content    = content;
     this._info       = info;
     this.kind = 'mesh';
   }
