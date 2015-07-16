@@ -1,5 +1,6 @@
 let _        = require('lodash');
 let co       = require('co');
+let php      = require('phpjs');
 const config = require('./config');
 let mysql    = require('co-mysql')(require('mysql').createConnection({
   host     : 'localhost',
@@ -27,7 +28,14 @@ let mongo = {
 
 
 co(function *(){
-  yield mongo.users.drop();
+  try{
+    yield mongo.users.drop();
+    yield mongo.images.drop();
+    yield mongo.posts.drop();
+  } catch (err)
+  {
+
+  }
   let cedric = yield mongo.users.insert({
     firstname : 'Cédric',
     lastname  : 'Fontaine',
@@ -39,10 +47,13 @@ co(function *(){
   let comments = yield mysql.query(queries.comments,[SITE]);
   elements.map( function(re) {
     delete re.site;
-    delete re.ordre;
     delete re.active;
     delete re.view_count;
     delete re.updated_at;
+    if (re.parent_id)
+    {
+      delete re.ordre;
+    }
     if (re.type === '2')
     {
       delete re.file;
@@ -53,6 +64,7 @@ co(function *(){
       delete re.height;
       delete re.file;
     } else {
+      delete re.style;
       re.ratio = re.width/re.height;
       re.tags = tags
         .filter(t=>t.element_id==re.id)
@@ -68,6 +80,13 @@ co(function *(){
     return re;
   });
 
+  yield elements
+    .filter( e => e.type === '1')
+    .map( e => {
+      e.users_id = cedric._id;
+      return mongo.images.insert(e);
+    });
+
   let posts = elements
     .filter(e => e.parent_id === null)
     .map(e => {
@@ -76,6 +95,7 @@ co(function *(){
         let child = elements.filter(c => c.parent_id === e.id);
         let layout = e.style.split("\r\n");
         let res = {};
+
         child.forEach( (c,indice)=>{
           res[(indice+1)] = c;
         });
@@ -111,31 +131,36 @@ co(function *(){
 
   let flatten = function(post)
   {
-    let finalChilds = [];
-    post.child.forEach(cp=>{
-      if (cp.child)
-      {
-        flatten(cp);
-        if (cp.horizontal === post.horizontal)
+    if (post.child)
+    {
+      let finalChilds = [];
+      post.child.forEach(cp=>{
+        if (cp.child)
         {
-          cp.child.forEach(ccp=>{
-            finalChilds.push(ccp);
-          })
+          flatten(cp);
+          if (cp.horizontal === post.horizontal)
+          {
+            cp.child.forEach(ccp=>{
+              finalChilds.push(ccp);
+            })
+          } else {
+            finalChilds.push(cp);
+          }
         } else {
           finalChilds.push(cp);
         }
-      } else {
-        finalChilds.push(cp);
-      }
-    });
+      });
 
-    post.child = finalChilds;
+      post.child = finalChilds;
+
+    }
     return post;
-  }
+  };
 
   // define the ratio (invariant) of each mesh depending on their orientation, and the respective weight of each of their childs (for horiz only)
   let calculateWeight = function(post)
   {
+    delete post.style;
     if (post.child)
     {
       post.child.map( calculateWeight );
@@ -148,7 +173,7 @@ co(function *(){
           return width + 1000*element.ratio;
         }, 0);
       } else {
-        // all child resized to 1000 width, what's the width ?
+        // all child resized to 1000 width, what's the height ?
         height = post.child.reduce( (height, element) => {
           return height + 1000/element.ratio;
         }, 0);
@@ -158,23 +183,87 @@ co(function *(){
 
       if (post.horizontal)
       {
-        post.child.map( c => {
+        post.child.map( function(c) {
+
           c.weight = (1000*c.ratio) / width * 100;
+          if (c.type==='1')
+          {
+            delete c.id;
+            delete c.parent_id;
+            delete c.label;
+            delete c.description;
+            delete c.type;
+            delete c.taken_on;
+            delete c.width;
+            delete c.height;
+            delete c.lens_id;
+            delete c.file;
+            delete c.created_at;
+            delete c.ratio;
+            delete c.tags;
+            delete c.users_id;
+          }
           return c;
         });
       } else {
-        post.child.map( c => {
+        post.child.map( function(c) {
           c.weight = 100;
+          if (c.type==='1')
+          {
+            delete c.id;
+            delete c.parent_id;
+            delete c.label;
+            delete c.description;
+            delete c.type;
+            delete c.taken_on;
+            delete c.width;
+            delete c.height;
+            delete c.lens_id;
+            delete c.file;
+            delete c.created_at;
+            delete c.ratio;
+            delete c.tags;
+            delete c.users_id;
+          }
           return c;
         });
       }
-
+      console.log(post.child);
+      return post;
+    } else {
+      if (post.parent_id === null)
+      {
+        post.child = [{
+          _id: mongo.images.id(post._id),
+          weight: 100
+        }];
+        post.oldUrl = '/photo/' + post.id + '/' + php.str_replace([' ','.', '?', '/',','],['_','','','','_'],post.label);
+        delete post._id;
+        delete post.id;
+        delete post.parent_id;
+        delete post.type;
+        delete post.taken_on;
+        delete post.width;
+        delete post.height;
+        delete post.lens_id;
+        delete post.file;
+        delete post.tags;
+        delete post.users_id;
+      }
       return post;
     }
-  }
+  };
 
-  posts.map(flatten).map(calculateWeight);
-  posts.forEach(logChild,0);
-  posts.forEach( p => console.log(JSON.stringify(p)));
+  posts = posts.map(flatten).map(calculateWeight);
+  yield posts.map( p => mongo.posts.insert(p));
+
+  yield mongo.posts.update({},{ $rename : {
+    created_at:'createdAt',
+    label:'title',
+    description:'desc'
+  }},{multi:true});
+  // posts.forEach( p => console.log(JSON.stringify(p)));
+
+
   console.log(cedric._id);
 }).catch ( (error) => console.log(error) );
