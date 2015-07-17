@@ -260,6 +260,7 @@ co(function *(){
   yield mongo.posts.update({},{ $rename : {
     created_at:'createdAt',
     label:'title',
+    ordre:'order',
     description:'desc'
   }},{multi:true});
   // posts.forEach( p => console.log(JSON.stringify(p)));
