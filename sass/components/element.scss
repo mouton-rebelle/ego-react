@@ -39,18 +39,6 @@
       text-transform: uppercase;
       color: $brand-alt;
     }
-    &--overlay{
-      position: absolute;
-      top:0;
-      left:0;
-      right:0;
-      background: rgba(#FFF,0.9);
-      font-size: 0.7em;
-      opacity: 0;
-      &--shown{
-        opacity: 1;
-      }
-    }
   }
   &__image{
     display: inline-block;
@@ -67,11 +55,5 @@
     &--root{
       overflow: hidden;
     }
-
-  }
-  &--root{
-    border:1px solid $light-grey;
-    padding:15px;
-    margin: 15px;
   }
 }

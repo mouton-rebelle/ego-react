@@ -1,15 +1,19 @@
-import React from 'react';
-import Post from '../components/Post';
+import React, {PropTypes} from 'react';
+import { connect } from 'redux/react';
+import { bindActionCreators } from 'redux';
+import * as PostActions from '../actions/PostActions';
+import PagedPosts from './PagedPosts';
 
-import {posts} from '../models/sample.js';
+@connect(state => ({
+  posts: state.posts.list
+}))
 export default class Home {
   render() {
+    const { posts, dispatch } = this.props;
     return (
       <div>
         <h2>The Homepage</h2>
-          {posts.map( (p, index) =>
-            <Post key={index} title={p.title} desc={p.desc} horizontal={p.horizontal} child={p.child}></Post>
-          )}
+        <PagedPosts posts={posts} {...bindActionCreators(PostActions, dispatch)}/>
       </div>
     );
   }
