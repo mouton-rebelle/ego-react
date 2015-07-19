@@ -1,0 +1,33 @@
+import React, {PropTypes} from 'react';
+
+import Post from '../components/Post';
+
+
+export default class PagedPosts {
+  static propTypes = {
+    posts : PropTypes.array.isRequired
+  };
+  deletePost(id) {
+    console.log(id);
+    this.props.postRemove(id);
+  }
+  render() {
+    const { posts } = this.props;
+    return (
+      <div>
+        {posts.map( (p, index) =>
+          <div onClick={() => this.deletePost(index)}>
+            <Post
+              child={p.child}
+              desc={p.desc}
+              horizontal={p.horizontal}
+              id={index}
+              key={index}
+              title={p.title}
+              />
+            </div>
+        )}
+      </div>
+    );
+  }
+}

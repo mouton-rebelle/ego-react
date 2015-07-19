@@ -1,4 +1,4 @@
-export const posts = [{
+export const samplePosts = [{
   "_id": "55a96b0b791ddf9709d3cae8",
   "id": 9362,
   "parent_id": null,

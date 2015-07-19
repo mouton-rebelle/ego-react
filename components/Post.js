@@ -2,20 +2,21 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import PostImage from './PostImage';
 
-function renderChild(c)
+function renderChild(c, rootId, level, indice)
 {
   // return <p>ppkdpsqk</p>;
-  if (c.child)
+  if(c.child)
   {
-    let styles = {flexBasis:c.weight + '%',WebkitFlexBasis:c.weight + '%'};
-    let classes = cx('element__content', {'element__content--horizontal':c.horizontal});
+    indice = indice++;
+    let styles = {flexBasis: c.weight + '%', WebkitFlexBasis: c.weight + '%'};
+    let classes = cx('element__content', {'element__content--horizontal': c.horizontal});
 
     return (
-      <div className={classes} style={styles}>
-        { c.child.map( renderChild ) }
+      <div className={classes} key={rootId + '-' + level + '-' + indice} style={styles}>
+        { c.child.map( (c2) => renderChild(c2, rootId, level, indice) ) }
       </div>);
   } else {
-    return <PostImage image={c.image[0]} weight={c.weight}></PostImage>;
+    return <PostImage image={c.image[0]} key={c.image[0].id} weight={c.weight}/>;
   }
 }
 
@@ -23,16 +24,17 @@ function renderChild(c)
 export default class Post {
 
   static propTypes = {
-    title: React.PropTypes.string.isRequired,
-    desc: React.PropTypes.string,
-    horizontal: React.PropTypes.bool.isRequired,
-    child: React.PropTypes.array.isRequired
-  }
+    child      : PropTypes.array.isRequired,
+    desc       : PropTypes.string,
+    horizontal : PropTypes.bool,
+    id         : PropTypes.number.isRequired,
+    title      : PropTypes.string.isRequired
+  };
 
   render() {
 
-    const { title, desc, horizontal, child } = this.props;
-    const elementClass = cx('element__content', 'element__content--root',{'element__content--horizontal':horizontal});
+    const { title, desc, horizontal, child, id } = this.props;
+    const elementClass = cx('element__content', 'element__content--root', {'element__content--horizontal': horizontal});
 
     return (
       <div className="element">
@@ -41,7 +43,7 @@ export default class Post {
           { desc ? <div className="element__info__desc">{desc}</div> : null }
         </div>
         <div className={elementClass}>
-          { child.map( renderChild ) }
+          { child.map( (c, level) => renderChild(c, id, level, 0) ) }
         </div>
       </div>
     );
