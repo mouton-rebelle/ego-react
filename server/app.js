@@ -20,10 +20,18 @@ router.get('/api/posts', function *(next) {
   this.set('Content-Range',contentRange);
   this.set('Accept-Ranges','posts');
   this.set('Range-Unit','posts');
-
+  this.set('Access-Control-Allow-Origin','*');
   this.body = JSON.stringify(posts);
 });
 
+router.options('/api/posts', function *(next){
+  this.set('Access-Control-Allow-Origin','*');
+  this.set('Access-Control-Allow-Methods','GET, POST, OPTIONS');
+  this.set('Access-Control-Allow-Headers','Content-Type, Range');
+  this.set('Access-Control-Max-Age',' 86400');
+
+  this.body = '1';
+});
 
 
 app
