@@ -8,6 +8,7 @@ const initialState = {
 };
 
 export  function posts(state = initialState, action) {
+  console.log(action);
   switch (action.type) {
     case 'POST_REMOVE':
 
@@ -18,8 +19,13 @@ export  function posts(state = initialState, action) {
         ...state,
         list: res
       };
-
+    case 'POST_LOAD_RANGE_FULFILLED':
+      return {
+        ...state,
+        list: action.payload.body
+      };
     default:
       return state;
   }
 }
+
