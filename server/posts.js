@@ -66,7 +66,7 @@ module.exports = {
 
     return {
       posts: posts,
-      contentRange: 'posts ' +range[0] + '-' + (count-range[0])+'/'+total,
+      contentRange: 'posts ' +range[0] + '-' + range[1]+'/'+total,
       partial: posts.length < total
     };
   },
