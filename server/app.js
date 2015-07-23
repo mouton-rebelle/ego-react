@@ -21,11 +21,13 @@ router.get('/api/posts', function *(next) {
   this.set('Accept-Ranges','posts');
   this.set('Range-Unit','posts');
   this.set('Access-Control-Allow-Origin','*');
+  this.set('Access-Control-Expose-Headers','Content-Type, Content-Range');
   this.body = JSON.stringify(posts);
 });
 
 router.options('/api/posts', function *(next){
   this.set('Access-Control-Allow-Origin','*');
+  this.set('Access-Control-Allow-Headers','*');
   this.set('Access-Control-Allow-Methods','GET, POST, OPTIONS');
   this.set('Access-Control-Allow-Headers','Content-Type, Range');
   this.set('Access-Control-Max-Age',' 86400');

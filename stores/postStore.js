@@ -8,7 +8,6 @@ const initialState = {
 };
 
 export  function posts(state = initialState, action) {
-  console.log(action);
   switch (action.type) {
     case 'POST_REMOVE':
 
@@ -20,8 +19,12 @@ export  function posts(state = initialState, action) {
         list: res
       };
     case 'POST_LOAD_RANGE_FULFILLED':
+      // parses our header "posts 30-40/2000"
+      let [range, count] = action.payload.headers['content-range'].replace('posts ','').split('/');
+
       return {
-        ...state,
+        count: parseInt(count),
+        range: range.split('-').map(v=>parseInt(v)),
         list: action.payload.body
       };
     default:
