@@ -30,14 +30,23 @@
 }
 
 .element{
+  margin-bottom: 80px;
   position: relative;
   &__info{
+    font-size: 1rem;
+    margin-bottom: 0.2em;
     &__title{
       font-family: 'Roboto Mono';
       font-weight: 300;
-      font-size: 1em;
+      font-size: 1.5em;
+      line-height: 1em;
       text-transform: uppercase;
       color: $brand-alt;
+      margin-bottom: 0.1em;
+    }
+    &__desc{
+      color:#3F3739;
+      font-size: 0.8em;
     }
   }
   &__image{
