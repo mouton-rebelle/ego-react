@@ -2,18 +2,24 @@ import React, { PropTypes } from 'react';
 import cx from 'classnames';
 import PostImage from './PostImage';
 
+//
+
+/*
+  Recursively render the child til we hit an image.
+  c : element to render
+  rootId: base post index
+  level: base post child index
+  indice : current post index
+ */
 function renderChild(c, rootId, level, indice)
 {
-  // return <p>ppkdpsqk</p>;
   if(c.child)
   {
-    indice = indice++;
     let styles = {flexBasis: c.weight + '%', WebkitFlexBasis: c.weight + '%'};
     let classes = cx('element__content', {'element__content--horizontal': c.horizontal});
-
     return (
       <div className={classes} key={rootId + '-' + level + '-' + indice} style={styles}>
-        { c.child.map( (c2) => renderChild(c2, rootId, level, indice) ) }
+        { c.child.map( (c2, indice) => renderChild(c2, rootId, level, indice) ) }
       </div>);
   } else {
     return <PostImage image={c.image[0]} key={c.image[0].id} weight={c.weight}/>;

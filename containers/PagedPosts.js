@@ -21,10 +21,11 @@ export default class PagedPosts {
       <div>
         <div>
           <button onClick={() => this.loadMore(-10)}>prev</button>
+          <span>{ range[0]} - { range[1]}</span>
           <button onClick={() => this.loadMore(10)}>next</button>
         </div>
         {posts.map( (p, index) =>
-          <div onClick={() => this.deletePost(index)}>
+          <div key={index + range[0]} onClick={() => this.deletePost(index)}>
             <Post
               child={p.child}
               desc={p.desc}
