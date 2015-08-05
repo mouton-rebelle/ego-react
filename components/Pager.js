@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import cx from 'classnames';
 import _ from 'lodash';
 
 const numPagesToShow = 5;
+
 class Page {
   constructor(label, start, disabled, current = false)
   {
@@ -14,7 +15,7 @@ class Page {
 }
 
 
-export default class Pager {
+export default class Pager extends Component {
 
   static propTypes = {
     range       : PropTypes.array.isRequired,

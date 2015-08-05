@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Link} from 'react-router';
 
 import '../sass/components/header.scss';
 
-export default class Header {
+export default class Header extends Component {
   render() {
     return (
       <header className='header'>

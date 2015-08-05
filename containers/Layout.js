@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Header from '../components/Header';
 
-export default class Layout {
+export default class Layout extends Component {
   render() {
     return (
       <div className="container app">

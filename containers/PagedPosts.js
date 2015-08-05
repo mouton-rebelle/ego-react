@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes, Component } from 'react';
 
 import Post from '../components/Post';
 
 
-export default class PagedPosts {
+export default class PagedPosts extends Component{
   static propTypes = {
     posts : PropTypes.array.isRequired,
     range : PropTypes.array.isRequired
