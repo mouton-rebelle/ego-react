@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import cx from 'classnames';
 import PostImage from './PostImage';
 
@@ -27,7 +27,7 @@ function renderChild(c, rootId, level, indice)
 }
 
 
-export default class Post {
+export default class Post extends Component{
 
   static propTypes = {
     child      : PropTypes.array.isRequired,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Route, Router } from 'react-router';
 import BrowserHistory from 'react-router/lib/BrowserHistory';
 import Layout from './Layout';
@@ -8,7 +8,7 @@ import Search from './Search';
 
 const history = new BrowserHistory();
 
-export default class EgoFrontRouter {
+export default class EgoFrontRouter  extends Component {
   render() {
     return (
       <Router history={history}>

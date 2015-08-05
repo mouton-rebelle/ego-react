@@ -1,5 +1,5 @@
-import React, {PropTypes} from 'react';
-import { connect } from 'redux/react';
+import React, {PropTypes, Component} from 'react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as PostActions from '../actions/PostActions';
 import PagedPosts from './PagedPosts';
@@ -11,7 +11,7 @@ import Pager from '../components/Pager';
   range: state.posts.range,
   count: state.posts.count
 }))
-export default class Home {
+export default class Home extends Component {
   render() {
     const { posts, range, count, dispatch } = this.props;
     return (

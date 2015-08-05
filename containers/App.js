@@ -1,22 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 import EgoFrontRouter from './EgoFrontRouter';
-import { createRedux, createDispatcher, composeStores } from 'redux';
-import { Provider } from 'redux/react';
-import * as reducers from '../stores/postStore';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import * as reducers from '../reducers';
 import promiseMiddleware from 'redux-promise-middleware';
-// console.log(posts(undefined,{type:'z'}));
-console.log(reducers);
-const reducer = composeStores(reducers);
-const dispatcher = createDispatcher(
-  reducer,
-  getState => [promiseMiddleware(getState)] // Pass the default middleware
-);
-const redux = createRedux(dispatcher);
 
-export default class App {
+function logger({ getState }) {
+  return (next) => (action) => {
+    console.log('will dispatch', action);
+
+    // Call the next dispatch method in the middleware chain.
+    let returnValue = next(action);
+
+    console.log('state after dispatch', getState());
+
+    // This will likely be the action itself, unless
+    // a middleware further in chain changed it.
+    return returnValue;
+  };
+}
+const middlewares = [promiseMiddleware, logger];
+const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
+
+
+const reducer = combineReducers(reducers);
+const store = createStoreWithMiddleware(reducer);
+
+
+
+export default class App extends Component{
   render() {
     return (
-      <Provider redux={redux}>
+      <Provider store={store}>
         {() => <EgoFrontRouter />}
       </Provider>
     );
