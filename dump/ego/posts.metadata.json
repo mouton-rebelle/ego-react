@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":NumberInt(1),"key":{"_id":NumberInt(1)},"name":"_id_","ns":"ego.posts"},{"v":NumberInt(1),"key":{"order":NumberInt(-1)},"name":"order_1","ns":"ego.posts"}]}
