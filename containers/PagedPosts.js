@@ -1,38 +1,36 @@
-import React, { PropTypes, Component } from 'react';
+import React, {PropTypes, Component} from 'react';
+import { connect } from 'react-redux';
+import PostsList from './PostsList';
+import Pager from '../components/Pager';
+import { postLoadPage } from '../actions/PostActions';
 
-import Post from '../components/Post';
+@connect(state => ({
+  posts: state.posts.list,
+  nbPages: state.posts.nbPages
+}))
+export default class PagedPosts extends Component {
 
-
-export default class PagedPosts extends Component{
-  static propTypes = {
-    posts : PropTypes.array.isRequired,
-    range : PropTypes.array.isRequired
-  };
-  loadMore(inc) {
-    this.props.postLoadRange([this.props.range[0]+inc,this.props.range[1]+inc]);
+  componentWillMount() {
+    console.warn('this call shall not be necessary once server side render works');
+    this.props.dispatch(postLoadPage(this.props.params.currentPage ? this.props.params.currentPage : 1));
   }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.params.currentPage*1 !== this.props.params.currentPage*1)
+    {
+      this.props.dispatch(postLoadPage(nextProps.params.currentPage));
+    }
+  }
+
   render() {
-    const { posts, range } = this.props;
+    const { posts, params, nbPages } = this.props;
+    const currentPage = params.currentPage ? 1 * params.currentPage : 1;
     return (
       <div>
-        <div>
-          <button onClick={() => this.loadMore(-10)}>prev</button>
-          <span>{ range[0]} - { range[1]}</span>
-          <button onClick={() => this.loadMore(10)}>next</button>
-        </div>
-        {posts.map( (p, index) =>
-          <div key={index + range[0]}>
-            <Post
-              child={p.child}
-              desc={p.desc}
-              horizontal={p.horizontal}
-              id={index}
-              key={index + range[0]}
-              title={p.title}
-              />
-            </div>
-        )}
-        <div>loadMore</div>
+        <h2>The Homepage</h2>
+        <Pager basePath={"/page/"} currentPage={currentPage} nbPages={nbPages}/>
+        <PostsList posts={posts}/>
       </div>
     );
   }
