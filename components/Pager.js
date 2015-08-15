@@ -1,14 +1,14 @@
 import React, { PropTypes, Component } from 'react';
 import cx from 'classnames';
-import _ from 'lodash';
+import { Link } from 'react-router';
 
 const numPagesToShow = 5;
 
 class Page {
-  constructor(label, start, disabled, current = false)
+  constructor(label, page, disabled, current = false)
   {
-    this.rangeStart = start;
     this.label      = label;
+    this.page       = page;
     this.disabled   = disabled;
     this.current    = current;
   }
@@ -18,64 +18,46 @@ class Page {
 export default class Pager extends Component {
 
   static propTypes = {
-    changeRange : PropTypes.func.isRequired,
-    count       : PropTypes.number.isRequired,
-    perPage     : PropTypes.number.isRequired,
-    range       : PropTypes.array.isRequired
+    basePath    : PropTypes.string.isRequired,
+    currentPage : PropTypes.number.isRequired,
+    nbPages     : PropTypes.number.isRequired
   };
-
-  handleClick( page )
-  {
-    this.props.changeRange([page.rangeStart, page.rangeStart + this.props.perPage]);
-  }
 
   render() {
 
-    const { range, count, perPage } = this.props;
-    const nbPage  = Math.floor(count / perPage);
-    const currentPage  = (range[0] + perPage) / perPage;
-
-
-    /*
-    We want :
-      - first / last page
-      - prev / next page
-      - 4 pages around the current one
-
-    We will only compute range[0]
-    */
-
-    let targetRanges = [];
-    targetRanges.push(new Page('first', 0, range[0] === 0));
-    targetRanges.push(new Page('prev', range[0] - perPage, range[0] === 0));
+    const { basePath, nbPages, currentPage } = this.props;
     let startPager = currentPage - Math.floor(numPagesToShow / 2);
+    let pages = [];
     if (startPager < 1)
     {
       startPager = 1;
     }
-    if (startPager + Math.floor(numPagesToShow / 2) > nbPage)
+    if (startPager + Math.floor(numPagesToShow / 2) > nbPages)
     {
-      startPager = nbPage - numPagesToShow;
+      startPager = nbPages - numPagesToShow;
     }
+
+    pages.push(new Page('first', 1, currentPage === 1));
+    pages.push(new Page('prev', currentPage - 1, currentPage === 1));
 
     for (let p = startPager; p <= startPager + numPagesToShow; p++)
     {
-      targetRanges.push(new Page(p, perPage * (p - 1), p === currentPage, p === currentPage));
+      pages.push(new Page(p, p, p === currentPage, p === currentPage));
     }
 
-    targetRanges.push(new Page('next', range[0] + perPage, currentPage === nbPage));
-    targetRanges.push(new Page('last', nbPage * perPage, currentPage === nbPage));
+    pages.push(new Page('next', currentPage + 1, currentPage === nbPages));
+    pages.push(new Page('last', nbPages, currentPage === nbPages));
 
 
 
     return (
       <div className="pager">
-        <div className="pager__legend">showing posts { range[0] } to { range[1] } of { count }</div>
+        <div className="pager__legend">showing page { currentPage } of { nbPages }</div>
         <div className="pager__content">
           {
-            targetRanges.map( (p, index) => {
+            pages.map( (p, index) => {
               const classes = cx('pager__content__item', 'btn', {'btn--disabled': p.disabled}, {'btn--active': p.active});
-              return <button onClick={() => this.handleClick(p)} className={classes} disabled={p.disabled} key={index}>{p.label}</button>
+              return <Link to={basePath + p.page} className={classes} disabled={p.disabled} key={index}>{p.label}</Link>
             })
           }
         </div>

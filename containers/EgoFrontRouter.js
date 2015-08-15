@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Router } from 'react-router';
-import Home from './Home';
+import PagedPosts from './PagedPosts';
 import About from './About';
 import Search from './Search';
 import Layout from './Layout';
@@ -42,8 +42,8 @@ export default class EgoFrontRouter  extends Component {
           {() =>
             <Router history={this.props.history}>
               <Route component={Layout}>
-                <Route path="/" component={Home}/>
-                <Route name="postPage" path="/page/:page" component={Home}/>
+                <Route path="/" component={PagedPosts}/>
+                <Route path="/page/:currentPage" component={PagedPosts}/>
                 <Route path="/about" component={About}/>
                 <Route path="/search" component={Search}/>
               </Route>
