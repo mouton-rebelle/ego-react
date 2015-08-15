@@ -28,7 +28,7 @@ export default class PostImage extends Component {
 
     return (
       <div  className={classes} onClick={::this.handleClick} style={styles}>
-        <img className="element__image" src={ 'http://ego.mouton-rebelle.com/uploads/ego/orig/' + image.file} />
+        <img className="element__image" src={ '/orig/' + image.file} />
       </div>
     );
   }

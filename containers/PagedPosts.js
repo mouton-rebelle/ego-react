@@ -8,10 +8,6 @@ export default class PagedPosts extends Component{
     posts : PropTypes.array.isRequired,
     range : PropTypes.array.isRequired
   };
-  deletePost(id) {
-    console.log(id);
-    this.props.postRemove(id);
-  }
   loadMore(inc) {
     this.props.postLoadRange([this.props.range[0]+inc,this.props.range[1]+inc]);
   }
@@ -25,7 +21,7 @@ export default class PagedPosts extends Component{
           <button onClick={() => this.loadMore(10)}>next</button>
         </div>
         {posts.map( (p, index) =>
-          <div key={index + range[0]} onClick={() => this.deletePost(index)}>
+          <div key={index + range[0]}>
             <Post
               child={p.child}
               desc={p.desc}

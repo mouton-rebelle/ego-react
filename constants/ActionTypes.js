@@ -1,8 +1,3 @@
-export const ADD_TODO = 'ADD_TODO';
-export const DELETE_TODO = 'DELETE_TODO';
-export const EDIT_TODO = 'EDIT_TODO';
-export const MARK_TODO = 'MARK_TODO';
-export const MARK_ALL = 'MARK_ALL';
-export const CLEAR_MARKED = 'CLEAR_MARKED';
-export const REMOVE_POST = 'REMOVE_POST';
-export const LOAD_POST_RANGE = 'LOAD_POST_RANGE';
+export const POST_LOAD_RANGE_PENDING   = 'POST_LOAD_RANGE_PENDING';
+export const POST_LOAD_RANGE_FULFILLED = 'POST_LOAD_RANGE_FULFILLED';
+export const POST_LOAD_RANGE_REJECTED  = 'POST_LOAD_RANGE_REJECTED';

@@ -18,21 +18,21 @@ class Page {
 export default class Pager extends Component {
 
   static propTypes = {
-    range       : PropTypes.array.isRequired,
+    changeRange : PropTypes.func.isRequired,
     count       : PropTypes.number.isRequired,
     perPage     : PropTypes.number.isRequired,
-    changeRange : PropTypes.func.isRequired
+    range       : PropTypes.array.isRequired
   };
 
   handleClick( page )
   {
-    this.props.changeRange([page.rangeStart,page.rangeStart + this.props.perPage]);
+    this.props.changeRange([page.rangeStart, page.rangeStart + this.props.perPage]);
   }
 
   render() {
 
-    const { range, count, perPage, changeRange } = this.props;
-    const nbPage  = Math.floor(count/perPage);
+    const { range, count, perPage } = this.props;
+    const nbPage  = Math.floor(count / perPage);
     const currentPage  = (range[0] + perPage) / perPage;
 
 
@@ -46,25 +46,25 @@ export default class Pager extends Component {
     */
 
     let targetRanges = [];
-    targetRanges.push(new Page('first',0,range[0] === 0));
-    targetRanges.push(new Page('prev',range[0]-perPage,range[0] === 0));
-    let startPager = currentPage - Math.floor(numPagesToShow/2);
-    if (startPager<1)
+    targetRanges.push(new Page('first', 0, range[0] === 0));
+    targetRanges.push(new Page('prev', range[0] - perPage, range[0] === 0));
+    let startPager = currentPage - Math.floor(numPagesToShow / 2);
+    if (startPager < 1)
     {
       startPager = 1;
     }
-    if (startPager+ Math.floor(numPagesToShow/2)>nbPage)
+    if (startPager + Math.floor(numPagesToShow / 2) > nbPage)
     {
       startPager = nbPage - numPagesToShow;
     }
 
-    for (let p=startPager; p<=startPager+numPagesToShow;p++)
+    for (let p = startPager; p <= startPager + numPagesToShow; p++)
     {
-      targetRanges.push(new Page(p,perPage*(p-1), p === currentPage, p === currentPage));
+      targetRanges.push(new Page(p, perPage * (p - 1), p === currentPage, p === currentPage));
     }
 
-    targetRanges.push(new Page('next',range[0]+perPage,currentPage === nbPage));
-    targetRanges.push(new Page('last',nbPage*perPage,currentPage === nbPage));
+    targetRanges.push(new Page('next', range[0] + perPage, currentPage === nbPage));
+    targetRanges.push(new Page('last', nbPage * perPage, currentPage === nbPage));
 
 
 
@@ -74,7 +74,7 @@ export default class Pager extends Component {
         <div className="pager__content">
           {
             targetRanges.map( (p, index) => {
-              const classes = cx('pager__content__item', 'btn',{'btn--disabled': p.disabled},{'btn--active': p.active});
+              const classes = cx('pager__content__item', 'btn', {'btn--disabled': p.disabled}, {'btn--active': p.active});
               return <button onClick={() => this.handleClick(p)} className={classes} disabled={p.disabled} key={index}>{p.label}</button>
             })
           }
