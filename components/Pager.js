@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router';
-
+import '../sass/components/pager.scss';
 const numPagesToShow = 5;
 
 class Page {

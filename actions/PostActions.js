@@ -1,7 +1,7 @@
 import request from 'superagent-bluebird-promise';
 import { POST_LOAD_PAGE_PENDING, POST_LOAD_PAGE_FULFILLED, POST_LOAD_PAGE_REJECTED } from '../constants/ActionTypes';
-export const postLoadPage = function (page) {
-  let range = [(page - 1) * 10, page * 10];
+export const postLoadPage = function (page, nbPerPage) {
+  let range = [(page - 1) * nbPerPage, page * nbPerPage];
   return {
     types: [
       POST_LOAD_PAGE_PENDING,

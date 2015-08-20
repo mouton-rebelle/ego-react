@@ -4,22 +4,28 @@ import PostsList from './PostsList';
 import Pager from '../components/Pager';
 import { postLoadPage } from '../actions/PostActions';
 
+const nbPerPage = 10;
+
 @connect(state => ({
   posts: state.posts.list,
   nbPages: state.posts.nbPages
 }))
 export default class PagedPosts extends Component {
 
+  static propTypes={
+    dispatch: PropTypes.func.isRequired
+  };
+
   componentWillMount() {
     console.warn('this call shall not be necessary once server side render works');
-    this.props.dispatch(postLoadPage(this.props.params.currentPage ? this.props.params.currentPage : 1));
+    this.props.dispatch(postLoadPage(this.props.params.currentPage ? this.props.params.currentPage : 1, nbPerPage));
   }
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
-    if (nextProps.params.currentPage*1 !== this.props.params.currentPage*1)
+    if (nextProps.params.currentPage * 1 !== this.props.params.currentPage * 1)
     {
-      this.props.dispatch(postLoadPage(nextProps.params.currentPage));
+      this.props.dispatch(postLoadPage(nextProps.params.currentPage, nbPerPage));
     }
   }
 
@@ -28,7 +34,6 @@ export default class PagedPosts extends Component {
     const currentPage = params.currentPage ? 1 * params.currentPage : 1;
     return (
       <div>
-        <h2>The Homepage</h2>
         <Pager basePath={"/page/"} currentPage={currentPage} nbPages={nbPages}/>
         <PostsList posts={posts}/>
       </div>
