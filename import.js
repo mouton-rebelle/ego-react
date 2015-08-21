@@ -264,7 +264,9 @@ co(function *(){
     description:'desc'
   }},{multi:true});
   // posts.forEach( p => console.log(JSON.stringify(p)));
-
+  yield mongo.images.update({},{ $rename : {
+    taken_on:'taken_on'
+  }},{multi:true});
 
   console.log(cedric._id);
 }).catch ( (error) => console.log(error) );

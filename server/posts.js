@@ -1,13 +1,13 @@
-var _       = require('lodash');
-var conn    = require('monk')('localhost/ego');
-var db      = {
+let _       = require('lodash');
+let conn    = require('monk')('localhost/ego');
+let db      = {
   posts  : require('co-monk')(conn.get('posts')),
   images : require('co-monk')(conn.get('images'))
 };
 
 const maxPerPage = 30;
 
-var listPostImageIds = function (post)
+let listPostImageIds = function (post)
 {
   if (!post.child)
   {
@@ -20,13 +20,13 @@ var listPostImageIds = function (post)
   }
 };
 
-var replaceImagesInPost = function(post, images)
+let replaceImagesInPost = function(post, images)
 {
   if (!post.child && post._id)
   {
     post.image = images.filter(function(img){
       return img._id+'' === post._id+'';
-    });
+    })[0];
   } else {
     post.child = post.child.map( (p) => {
       p = replaceImagesInPost(p,images);
@@ -38,16 +38,23 @@ var replaceImagesInPost = function(post, images)
 }
 
 module.exports = {
-  get: function *(...range)
+  getById: function *(id)
   {
-    var count = Math.min(range[1]-range[0], maxPerPage);
-    var posts = yield db.posts.find({},
+    let post = yield db.posts.findOne({_id:id});
+    let ids  = listPostImageIds(post);
+    let images =  yield db.images.find({_id:{$in:ids}});
+    return replaceImagesInPost(post, images);
+  },
+  getByRange: function *(...range)
+  {
+    let count = Math.min(range[1]-range[0], maxPerPage);
+    let posts = yield db.posts.find({},
     {
       sort  : { order: -1},
       limit : count,
       skip  : range[0]
     });
-    var total = yield db.posts.count({});
+    let total = yield db.posts.count({});
 
     // gather images _id
     let ids = _.uniq(posts.reduce( (ids, post) => {
@@ -56,7 +63,7 @@ module.exports = {
     },[]));
 
     // query images
-    var images =  yield db.images.find({_id:{$in:ids}});
+    let images =  yield db.images.find({_id:{$in:ids}});
 
     // replace child images in posts
     posts = posts.map( post => {

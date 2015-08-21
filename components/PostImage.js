@@ -17,7 +17,7 @@ export default class PostImage extends Component {
   }
 
   handleClick() {
-    this.setState({zoom: !this.state.zoom});
+    console.log('handle click');
   }
 
   renderTag(t) {
@@ -25,18 +25,17 @@ export default class PostImage extends Component {
     if (temp.length === 2)
     {
       let [cat, name] = temp;
-      return <span className="tag"><span className="tag__cat">{cat}</span> <span className="tag__value">{name}</span> </span>;
+      return <span key={t} className="tag"><span className="tag__cat">{cat}</span> <span className="tag__value">{name}</span> </span>;
     } else {
-      return <span className="tag"><span className="tag__value">{t}</span> </span>;
+      return <span key={t} className="tag"><span className="tag__value">{t}</span> </span>;
     }
   }
 
   render() {
 
     const {image, weight} = this.props;
-    const zoom            = this.state.zoom;
     const styles          = {flexBasis:weight + '%', WebkitFlexBasis:weight + '%'};
-    const classes         = cx('image', 'image--border', {'image--zoom':zoom});
+    const classes         = cx('image', 'image--border');
 
     return (
       <div  className={classes} onClick={::this.handleClick} style={styles}>

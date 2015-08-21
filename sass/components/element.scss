@@ -60,21 +60,29 @@
 .element{
   margin-bottom: 80px;
   position: relative;
-  &__info{
-    font-size: 1rem;
+  &__head{
+    display: flex;
     margin-bottom: 0.2em;
-    &__title{
-      @extend %custom-font;
-      font-weight: 300;
-      font-size: 1.5em;
-      line-height: 1em;
-      text-transform: uppercase;
-      color: $brand-alt;
-      margin-bottom: 0.1em;
+    align-items:center;
+    &__info{
+      flex:3 0 200px;
+      font-size: 1rem;
+      &__title{
+        @extend %custom-font;
+        font-weight: 300;
+        font-size: 1.5em;
+        line-height: 1em;
+        text-transform: uppercase;
+        color: $brand-alt;
+        margin-bottom: 0.1em;
+      }
+      &__desc{
+        color:#3F3739;
+        font-size: 0.8em;
+      }
     }
-    &__desc{
-      color:#3F3739;
-      font-size: 0.8em;
+    &__date{
+      flex:1 0 100px;
     }
   }
   &__image{
