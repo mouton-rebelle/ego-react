@@ -7,12 +7,18 @@ var postsApi  = require('./posts.js');
 var app       = koa();
 var router    = new Router();
 
+router.get('/api/post/:id', function *(next){
+  this.type   = 'application/json';
+  let post  = yield postsApi.getById(this.params.id);
+  this.body = JSON.stringify(post);
+});
+
 router.get('/api/posts', function *(next) {
 
   let range   = _.get(this.request.headers,'range','0-10');
   let [ start = 0, end = 10 ] = range.split('-');
 
-  let { posts, contentRange, partial } = yield postsApi.get(start,end);
+  let { posts, contentRange, partial } = yield postsApi.getByRange(start,end);
 
   this.type   = 'application/json';
   this.status = partial ? 206 : 200;

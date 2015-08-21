@@ -13,7 +13,8 @@ const nbPerPage = 10;
 export default class PagedPosts extends Component {
 
   static propTypes={
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    params: PropTypes.object
   };
 
   componentWillMount() {
@@ -22,8 +23,7 @@ export default class PagedPosts extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if (nextProps.params.currentPage * 1 !== this.props.params.currentPage * 1)
+    if ( nextProps.params.currentPage * 1 !== 1 && nextProps.params.currentPage * 1 !== this.props.params.currentPage * 1)
     {
       this.props.dispatch(postLoadPage(nextProps.params.currentPage, nbPerPage));
     }
@@ -36,6 +36,7 @@ export default class PagedPosts extends Component {
       <div>
         <Pager basePath={"/page/"} currentPage={currentPage} nbPages={nbPages}/>
         <PostsList posts={posts}/>
+        <Pager basePath={"/page/"} currentPage={currentPage} nbPages={nbPages}/>
       </div>
     );
   }
