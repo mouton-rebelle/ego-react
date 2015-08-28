@@ -1,4 +1,5 @@
 @import '../common/variables';
+
 .image--border{
   &:before{
     content:'';
@@ -31,64 +32,16 @@
 .image{
   position:relative;
 }
-.tag{
-  display: inline-block;
-  padding:3px 7px;
-  margin: 2px;
-  background: $brand-alt;
-  font-size: 0.8em;
-  @extend %custom-font;
-  &__cat{
-    opacity: 0.7;
-  }
 
-}
-.image__info{
-  position: absolute;
-  text-align: center;
-  top:0;
-  left:0;
-  right:0;
-  background-image: linear-gradient(rgba(0,0,0,1) 0%,rgba(0,0,0,0.3) 80%, rgba(0,0,0,0) 100%);
-  padding:2%;
-  color:#FFF;
-  &__title{
-    @extend %custom-font;
-    margin-bottom: 4px;
-  }
-}
 .element{
   margin-bottom: 80px;
   position: relative;
-  &__head{
-    display: flex;
-    margin-bottom: 0.2em;
-    align-items:center;
-    &__info{
-      flex:3 0 200px;
-      font-size: 1rem;
-      &__title{
-        @extend %custom-font;
-        font-weight: 300;
-        font-size: 1.5em;
-        line-height: 1em;
-        text-transform: uppercase;
-        color: $brand-alt;
-        margin-bottom: 0.1em;
-      }
-      &__desc{
-        color:#3F3739;
-        font-size: 0.8em;
-      }
-    }
-    &__date{
-      flex:1 0 100px;
-    }
-  }
+
   &__image{
     display: inline-block;
     max-width: 100%;
   }
+
   &__content{
     display: webkit-flex;
     display: flex;

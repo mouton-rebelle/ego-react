@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PostsList from './PostsList';
 import Pager from '../components/Pager';
 import { postLoadPage } from '../actions/PostActions';
+import _get from 'lodash/object/get';
 
 const nbPerPage = 10;
 
@@ -17,16 +18,25 @@ export default class PagedPosts extends Component {
     params: PropTypes.object
   };
 
+  loadPostForCurrentPage() {
+    let page = _get(this.props, 'params.currentPage', 1) * 1;
+    this.props.dispatch(postLoadPage(page, nbPerPage));
+  }
+
   componentWillMount() {
     console.warn('this call shall not be necessary once server side render works');
-    this.props.dispatch(postLoadPage(this.props.params.currentPage ? this.props.params.currentPage : 1, nbPerPage));
+    let page = _get(this.props, 'params.currentPage', 1) * 1;
+    this.props.dispatch(postLoadPage(page, nbPerPage));
   }
 
   componentWillReceiveProps(nextProps) {
-    if ( nextProps.params.currentPage * 1 !== 1 && nextProps.params.currentPage * 1 !== this.props.params.currentPage * 1)
+    let page = _get(this.props, 'params.currentPage', 1) * 1;
+    let nextPage = _get(nextProps, 'params.currentPage', 1) * 1;
+    if (page !== nextPage)
     {
-      this.props.dispatch(postLoadPage(nextProps.params.currentPage, nbPerPage));
+      this.props.dispatch(postLoadPage(nextPage, nbPerPage));
     }
+
   }
 
   render() {

@@ -1,5 +1,6 @@
 import request from 'superagent-bluebird-promise';
-import { POST_LOAD_PAGE_PENDING, POST_LOAD_PAGE_FULFILLED, POST_LOAD_PAGE_REJECTED } from '../constants/ActionTypes';
+import { POST_LOAD_PAGE_PENDING, POST_LOAD_PAGE_FULFILLED, POST_LOAD_PAGE_REJECTED,
+POST_LOAD_BYID_PENDING, POST_LOAD_BYID_FULFILLED, POST_LOAD_BYID_REJECTED } from '../constants/ActionTypes';
 
 function shouldFetchPost(state, postId) {
   const post = state.postsById && state.postsById[postId];
@@ -25,10 +26,13 @@ export const postLoadPage = function (page, nbPerPage) {
   };
 };
 
-export const fetchPostIfNeeded = function (postId) {
-  return (dispatch, getState) => {
-    if (shouldFetchPost(getState(), postId)) {
-      return dispatch(fetchPost(postId));
-    }
-  }
+export const postLoadById = function (id) {
+  return {
+    types: [
+      POST_LOAD_BYID_PENDING,
+      POST_LOAD_BYID_FULFILLED,
+      POST_LOAD_BYID_REJECTED
+    ],
+    payload: request(`http://localhost:8080/api/post/${id}`).promise()
+  };
 };
