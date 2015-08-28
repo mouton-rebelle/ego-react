@@ -1,0 +1,30 @@
+@import '../common/variables';
+
+.imgInfo{
+  position: absolute;
+  text-align: center;
+  bottom:0;
+  left:0;
+  right:0;
+  background-image: linear-gradient(rgba(0,0,0,0) 0%,rgba(0,0,0,0.3) 20%, rgba(0,0,0,1) 100%);
+  padding:2%;
+  color:#FFF;
+  &__title{
+    @extend %custom-font;
+    margin-bottom: 4px;
+  }
+}
+
+
+
+.tag{
+  display: inline-block;
+  padding:3px 7px;
+  margin: 2px;
+  background: $brand-alt;
+  font-size: 0.8em;
+  @extend %custom-font;
+  &__cat{
+    opacity: 0.7;
+  }
+}
