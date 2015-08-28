@@ -22,17 +22,27 @@ module.exports = {
     // new webpack.NoErrorsPlugin()
   ],
   resolve: {
+    alias: {
+      'redux-devtools/lib': path.join(__dirname, '..', '..', 'src'),
+      'redux-devtools': path.join(__dirname, '..', '..', 'src'),
+      'react': path.join(__dirname, 'node_modules', 'react')
+    },
     extensions: ['', '.js']
+  },
+  resolveLoader: {
+    'fallback': path.join(__dirname, 'node_modules')
   },
   module: {
     loaders: [{
       test: /\.js$/,
       loaders: ['react-hot', 'babel?optional[]=runtime&stage=0'],
-      exclude: /node_modules/
+      exclude: /node_modules/,
+      include: __dirname
     },
     {
         test: /\.scss$/,
-        loader: 'style-loader!css?sourceMap!sass?sourceMap'
+        loader: 'style-loader!css?sourceMap!sass?sourceMap',
+        include: __dirname
     },
     // {
     //   test: /\.css?$/,

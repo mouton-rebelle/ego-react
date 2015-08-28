@@ -16,8 +16,8 @@ export default class PostsList extends Component{
               child={p.child}
               desc={p.desc}
               horizontal={p.horizontal}
-              id={index}
-              key={index}
+              id={p._id}
+              key={p._id}
               title={p.title}
               />
             </div>

@@ -11,6 +11,7 @@ router.get('/api/post/:id', function *(next){
   this.type   = 'application/json';
   let post  = yield postsApi.getById(this.params.id);
   this.body = JSON.stringify(post);
+  this.set('Access-Control-Allow-Origin','*');
 });
 
 router.get('/api/posts', function *(next) {

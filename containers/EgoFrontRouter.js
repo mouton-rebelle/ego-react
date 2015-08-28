@@ -4,11 +4,14 @@ import PagedPosts from './PagedPosts';
 import About from './About';
 import Search from './Search';
 import Layout from './Layout';
+import SinglePostPage from './SinglePostPage';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import * as reducers from '../reducers';
 import promiseMiddleware from 'redux-promise-middleware';
+// import { devTools, persistState } from 'redux-devtools';
+// import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
 function logger({ getState }) {
   return (next) => (action) => {
@@ -25,11 +28,16 @@ function logger({ getState }) {
   };
 }
 const middlewares = [promiseMiddleware, logger];
-const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
 
+const finalCreateStore = compose(
+  applyMiddleware(...middlewares),
+  // devTools(),
+  // persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
+  createStore
+);
 
 const reducer = combineReducers(reducers);
-const store = createStoreWithMiddleware(reducer);
+const store = finalCreateStore(reducer);
 
 
 
@@ -44,6 +52,7 @@ export default class EgoFrontRouter  extends Component {
               <Route component={Layout}>
                 <Route path="/" component={PagedPosts}/>
                 <Route path="/page/:currentPage" component={PagedPosts}/>
+                <Route path="/post/:id(/:imageId)" component={SinglePostPage}/>
                 <Route path="/about" component={About}/>
                 <Route path="/search" component={Search}/>
               </Route>
