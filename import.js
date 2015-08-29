@@ -27,6 +27,37 @@ let mongo = {
 }
 
 
+function getDefaultStyle(nb)
+  {
+  switch (nb)
+  {
+    case 1:
+      return '1.h.2';
+    case 2:
+      return '1.h.2';
+    case 3:
+      return "2.v.3\r\nm1.h.1";
+    case 4:
+      return "1.v.2\r\n3.v.m1\r\nm2.h.4";
+    case 5:
+      return "1.h.2\r\n3.h.4\r\nm1.v.m2\r\nm3.v.5";
+    case 6:
+      return "1.h.2\r\n3.h.4\r\nm1.v.m2\r\n5.h.6\r\nm3.v.m4";
+    case 7:
+      return "1.h.2\r\n3.h.4\r\n5.h.6\r\nm1.v.m2\r\nm3.h.7\r\nm4.v.m5";
+    case 8:
+      return "1.h.2\r\n3.h.4\r\n5.h.6\r\nm1.v.m2\r\nm3.h.7\r\nm4.v.m5\r\nm6.v.8";
+    case 9:
+      return "1.h.2\r\n3.h.4\r\n5.h.6\r\n7.h.8\r\nm1.v.m2\r\nm3.v.m4\r\nm5.h.m6\r\nm7.v.9";
+    case 10:
+      return "1.h.2\r\n3.h.4\r\n5.h.6\r\n7.h.8\r\nm1.v.m2\r\nm3.v.m4\r\nm5.h.m6\r\nm7.v.9\r\nm8.h.10";
+    default:
+      throw "UNHANDLED : " + nb;
+  }
+}
+
+
+
 co(function *(){
   try{
     yield mongo.users.drop();
@@ -81,18 +112,28 @@ co(function *(){
   });
 
   yield elements
-    .filter( e => e.type === '1')
+    .filter( e => e.type*1 === 1)
     .map( e => {
       e.users_id = cedric._id;
+
       return mongo.images.insert(e);
     });
 
   let posts = elements
     .filter(e => e.parent_id === null)
     .map(e => {
+      let child = elements.filter(c => c.parent_id === e.id);
+      if (!e.style && child.length>1)
+      {
+        try {
+          e.style = getDefaultStyle(child.length);
+        } catch (err)
+        {
+          throw e.label;
+        }
+      }
       if (e.style)
       {
-        let child = elements.filter(c => c.parent_id === e.id);
         let layout = e.style.split("\r\n");
         let res = {};
 
@@ -112,7 +153,7 @@ co(function *(){
         e.child = final.child;
         e.horizontal = final.horizontal;
       }
-     return e;
+      return e;
     });
 
   let logChild = function(elem,lvl)
@@ -131,6 +172,7 @@ co(function *(){
 
   let flatten = function(post)
   {
+    console.log(post);
     if (post.child)
     {
       let finalChilds = [];
@@ -186,7 +228,7 @@ co(function *(){
         post.child.map( function(c) {
 
           c.weight = (1000*c.ratio) / width * 100;
-          if (c.type==='1')
+          if (c.type*1 === 1)
           {
             delete c.id;
             delete c.parent_id;
@@ -208,7 +250,7 @@ co(function *(){
       } else {
         post.child.map( function(c) {
           c.weight = 100;
-          if (c.type==='1')
+          if (c.type*1===1)
           {
             delete c.id;
             delete c.parent_id;
@@ -228,7 +270,6 @@ co(function *(){
           return c;
         });
       }
-      console.log(post.child);
       return post;
     } else {
       if (post.parent_id === null)
@@ -265,8 +306,8 @@ co(function *(){
   }},{multi:true});
   // posts.forEach( p => console.log(JSON.stringify(p)));
   yield mongo.images.update({},{ $rename : {
-    taken_on:'taken_on'
+    taken_on:'takenOn'
   }},{multi:true});
 
   console.log(cedric._id);
-}).catch ( (error) => console.log(error) );
+}).catch ( (error) => console.log(error.stack) );
