@@ -14,21 +14,7 @@
   position: relative;
   z-index: 999;
 }
-.image--zoom{
-  position: fixed;
-  top:0;
-  right:0;
-  bottom: 0;
-  left:0;
-  z-index:9999;
-  display: flex;
-  justify-content:center;
-  align-items:center;
-  background: rgba(#000,0.7);
-  .element__image{
-    max-height: 100%;
-  }
-}
+
 .image{
   position:relative;
 }
@@ -38,8 +24,9 @@
   position: relative;
 
   &__image{
-    display: inline-block;
     max-width: 100%;
+    height: auto;
+    width:100%;
   }
 
   &__content{
@@ -49,6 +36,7 @@
     flex-direction:column;
     &--horizontal{
       -webkit-flex-direction:row;
+      flex-direction:row;
     }
     &--root{
       overflow: hidden;
