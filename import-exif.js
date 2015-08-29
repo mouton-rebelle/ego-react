@@ -1,9 +1,7 @@
 let _        = require('lodash');
 let co       = require('co');
 let mongodb  = require('monk')('localhost/ego');
-var im       = require('imagemagick');
 let fs       = require('fs');
-var sleep    = require('sleep');
 var gm = require('gm').subClass({imageMagick: true});
 
 let mongo = {

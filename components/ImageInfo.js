@@ -1,7 +1,8 @@
 import React, { PropTypes, Component } from 'react';
-import cx from 'classnames';
 import '../sass/components/imageInfo.scss';
-import { Link } from 'react-router';
+import Tag from './Tag';
+import moment from 'moment';
+
 
 export default class ImageInfo extends Component {
 
@@ -11,22 +12,9 @@ export default class ImageInfo extends Component {
 
   renderTag(t) {
     let temp = t.split(':');
-    if (temp.length === 2)
-    {
-      let [cat, name] = temp;
-      return (
-        <span className="tag" key={t}>
-          <span className="tag__cat">{cat}</span>
-          <span className="tag__value">{name}</span>
-        </span>
-      );
-    } else {
-      return (
-        <span className="tag" key={t}>
-          <span className="tag__value">{t}</span>
-        </span>
-      );
-    }
+    let [cat, name] = temp;
+    let props = {category: cat, name: name};
+    return <Tag key={t} {...props}/>;
   }
 
   render() {
@@ -36,6 +24,8 @@ export default class ImageInfo extends Component {
       <div className="imgInfo">
         <h4 className="imgInfo__title">{ image.label }</h4>
         <p className="imgInfo__desc">{ image.desc }</p>
+        <p className="imgInfo__desc">{ moment(image.takenOn).format('DD/MM/YYYY [@] HH:mm') }</p>
+        <p className="imgInfo__desc">f{ eval(image.aperture) } s{ image.speed } iso: {image.iso} {image.bias}</p>
         { image.tags
             .sort( (a, b) => a > b ? 1 : -1 )
             .map( t => this.renderTag(t) )
