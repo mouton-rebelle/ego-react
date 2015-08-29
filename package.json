@@ -24,6 +24,7 @@
     "moment": "^2.10.6",
     "monk": "^1.0.1",
     "mysql": "git://github.com/felixge/node-mysql.git",
+    "radium": "^0.13.8",
     "react": "^0.13.3",
     "react-redux": "^0.2.1",
     "react-router": "v1.0.0-beta2",

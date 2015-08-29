@@ -3,6 +3,7 @@ import ImageInfo from './ImageInfo';
 import PostHeader from './PostHeader';
 import { Link } from 'react-router';
 import '../sass/components/postDetail.scss';
+import Btn from './Btn';
 function flattenImages(c, images)
 {
   if (c.image)
@@ -36,22 +37,29 @@ export default class Post extends Component{
     this.state = {
       hud: true
     };
+
+    this.onKeyDown = evt => {
+      switch (evt.keyCode)
+      {
+        case 32:
+          this.setState({hud: !this.state.hud});
+          break;
+        default:
+          console.log(evt.keyCode);
+      }
+
+    };
   }
 
   componentDidMount(){
-    window.addEventListener('keypress', evt => {
-      console.log(evt.keyCode);
-      if (evt.keyCode === 32)
-      {
-        this.setState({hud: !this.state.hud});
-      }
-    });
+    window.addEventListener('keydown', this.onKeyDown);
   }
 
-  keyPressed(evt)
-  {
-    console.log(evt, this);
+  componentWillUnmount(){
+    window.removeEventListener('keydown', this.onKeyDown);
   }
+
+
 
   render() {
     const { title, desc, id, imageId} = this.props;
@@ -62,7 +70,10 @@ export default class Post extends Component{
     return (
       <div className="overlay" style={overlayStyle}>
         <div className="overlay__hud" style={ {opacity:this.state.hud ? 1 : 0} }>
-          <PostHeader className="pHead--dark" desc={desc} kind="dark" title={title}/>
+
+          <PostHeader className="pHead--dark" desc={desc} kind="dark" title={title}>
+            <Btn text={ `← ${title} `} url={ postUrl } />
+          </PostHeader>
           { images.length > 1 ? (
           <div className="imagePicker">
             { images.map( img => {

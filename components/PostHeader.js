@@ -7,6 +7,7 @@ import '../sass/components/postHeader.scss';
 export default class PostHeader extends Component{
 
   static propTypes = {
+    children   : PropTypes.object,
     dates      : PropTypes.array,
     desc       : PropTypes.string,
     kind       : PropTypes.oneOf(['dark', 'light']).isRequired,
@@ -29,6 +30,13 @@ export default class PostHeader extends Component{
         <div className="pHead__date">
           { dates ? <PostDateRange dates={dates}/> : null }
         </div>
+        { React.Children.map( this.props.children, (c, i) => {
+          return (
+            <div className="pHead__additional" key={i}>
+              {c}
+            </div>
+          );
+        }) }
       </div>
     );
   }
