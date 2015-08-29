@@ -21,6 +21,7 @@
     "koa": "^0.21.0",
     "koa-router": "^5.1.2",
     "lodash": "^3.10.0",
+    "moment": "^2.10.6",
     "monk": "^1.0.1",
     "mysql": "git://github.com/felixge/node-mysql.git",
     "react": "^0.13.3",

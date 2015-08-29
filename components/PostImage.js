@@ -17,7 +17,7 @@ export default class PostImage extends Component {
 
     return (
       <Link className="image image--border" style={styles} to={`${postUrl}/${image._id}`}>
-        <img alt={image.label} className="element__image" src={ '/orig/' + image.file}/>
+        <img alt={image.label} className="element__image" src={ 'http://eg0.me/uploads/ego/orig/' + image.file}/>
       </Link>
     );
   }
