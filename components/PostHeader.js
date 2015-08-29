@@ -25,7 +25,7 @@ export default class PostHeader extends Component{
       <div className={classes.base}>
         <div className="pHead__info">
           <h3 className={classes.title}>{title}</h3>
-          { desc ? <div className={classes.desc}>{desc}</div> : null }
+          { desc ? <div className={classes.desc} dangerouslySetInnerHTML={{__html:desc}} /> : null }
         </div>
         <div className="pHead__date">
           { dates ? <PostDateRange dates={dates}/> : null }

@@ -23,8 +23,9 @@ export default class ImageInfo extends Component {
     return (
       <div className="imgInfo">
         <h4 className="imgInfo__title">{ image.label }</h4>
-        <p className="imgInfo__desc">{ image.desc }</p>
-        <p className="imgInfo__desc">{ moment(image.takenOn).format('DD/MM/YYYY [@] HH:mm') }</p>
+        <p className="imgInfo__desc" dangerouslySetInnerHTML={{__html: image.desc}}/>
+        <p className="imgInfo__desc"
+        >{ moment(image.takenOn).format('DD/MM/YYYY [@] HH:mm') }</p>
         <p className="imgInfo__desc">f{ eval(image.aperture) } s{ image.speed } iso: {image.iso} {image.bias}</p>
         { image.tags
             .sort( (a, b) => a > b ? 1 : -1 )
