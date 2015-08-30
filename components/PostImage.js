@@ -86,7 +86,7 @@ export default class PostImage extends Component {
         textAlign:'center'
       },
       loading: {
-        height: this.state.width / image.ratio,
+        height: Math.floor(this.state.width / image.ratio),
         backgroundColor:'#EEE',
         backgroundImage:'url(/public/img/grid.svg)',
         backgroundRepeat:'no-repeat',
@@ -103,7 +103,7 @@ export default class PostImage extends Component {
     return (
       <Link className="image image--border" style={ computedStyles } to={`${postUrl}/${image._id}`}>
         { this.state.imageVisible ?
-           <img alt={image.label} className="element__image" onLoad={this.onLoad} src={ `http://eg0.me/uploads/ego/orig/${image.file}` } />
+           <img alt={image.label} style={{display:this.state.imageLoaded ? 'inline-block' : 'none'}} className="element__image" onLoad={this.onLoad} src={ `http://eg0.me/uploads/ego/orig/${image.file}` } />
            :
            <p style={{padding:15}}>{image.label}</p>
         }

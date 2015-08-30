@@ -17,6 +17,7 @@ function renderChild(c, postUrl)
   if(c.child)
   {
     let styles = {flexBasis: c.weight + '%', WebkitFlexBasis: c.weight + '%'};
+
     let classes = cx('element__content', {'element__content--horizontal': c.horizontal});
     let ids = 'mesh_' + flattenImages(c, []).map(img => img._id).join('-');
     return (

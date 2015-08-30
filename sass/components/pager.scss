@@ -26,11 +26,14 @@
       &:last-child{
         margin-right: 0;
       }
-      &.active{
+      &--active{
         background-color:$brand-primary;
       }
-      &:hover{
+      &--hoverable:hover{
         color:$brand-primary;
+      }
+      &--disabled{
+        opacity: 0.4;
       }
     }
   }
