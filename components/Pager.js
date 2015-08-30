@@ -32,7 +32,7 @@ export default class Pager extends Component {
     {
       startPager = 1;
     }
-    if (startPager + Math.floor(numPagesToShow / 2) > nbPages)
+    if ((startPager + numPagesToShow) > nbPages)
     {
       startPager = nbPages - numPagesToShow;
     }
@@ -56,8 +56,16 @@ export default class Pager extends Component {
         <div className="pager__content">
           {
             pages.map( (p, index) => {
-              const classes = cx('pager__content__item', 'btn', {'btn--disabled': p.disabled}, {'btn--active': p.active});
-              return <Link to={basePath + p.page} className={classes} disabled={p.disabled} key={index}>{p.label}</Link>
+              const classes = cx('pager__content__item', {
+                'pager__content__item--active':p.current,
+                'pager__content__item--disabled':p.disabled && !p.current,
+                'pager__content__item--hoverable':!p.current && !p.disabled
+              });
+              return p.disabled ?
+                <span className={classes} key={index}>{p.label}</span>
+                :
+                <Link className={classes} key={index} to={basePath + p.page}>{p.label}</Link>;
+
             })
           }
         </div>

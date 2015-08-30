@@ -41,7 +41,7 @@ module.exports = {
     },
     {
         test: /\.scss$/,
-        loader: 'style-loader!css?sourceMap!sass?sourceMap',
+        loader: 'style-loader!css?sourceMap!autoprefixer?browsers=last 2 version!sass?sourceMap',
         include: __dirname
     },
     // {

@@ -1,11 +1,13 @@
 var koa       = require('koa');
 var Router    = require('koa-router');
 var _         = require('lodash');
-
+var serve     = require('koa-static');
 var postsApi  = require('./posts.js');
 
 var app       = koa();
 var router    = new Router();
+
+app.use(serve('public'));
 
 router.get('/api/post/:id', function *(next){
   this.type   = 'application/json';
@@ -42,6 +44,22 @@ router.options('/api/posts', function *(next){
   this.body = '1';
 });
 
+
+router.get('*', function *(next){
+  this.body = `
+  <html>
+    <head>
+      <link href='http://fonts.googleapis.com/css?family=Roboto+Mono:400,300,700' rel='stylesheet' type='text/css'>
+      <title>eg0</title>
+    </head>
+    <body>
+      <div class="content" id="root">
+      </div>
+    </body>
+    <script src="/js/vendors.js"></script>
+    <script src="/js/app.js"></script>
+  </html>`;
+});
 
 app
   .use(router.routes())
