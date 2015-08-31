@@ -13,12 +13,9 @@ export default class PostsList extends Component{
         {posts.map( (p, index) =>
           <div key={index}>
             <Post
-              child={p.child}
-              desc={p.desc}
-              horizontal={p.horizontal}
+              post={p}
               id={p._id}
               key={p._id}
-              title={p.title}
               />
             </div>
         )}

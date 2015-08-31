@@ -5,9 +5,7 @@ import { debounce } from 'lodash';
 export default class PostImage extends Component {
 
   static propTypes = {
-    image      : PropTypes.object.isRequired,
-    postUrl    : PropTypes.string.isRequired,
-    weight     : PropTypes.number.isRequired
+    image      : PropTypes.object.isRequired
   };
 
   constructor(props, context) {
@@ -74,13 +72,11 @@ export default class PostImage extends Component {
 
   render() {
 
-    const {postUrl, image, weight} = this.props;
+    const {image} = this.props;
     const styles =
     {
       base:
       {
-        flexBasis:weight + '%',
-        WebkitFlexBasis:weight + '%',
         textDecoration:'none',
         color:'#666',
         textAlign:'center'
@@ -99,13 +95,12 @@ export default class PostImage extends Component {
     {
       computedStyles = {...computedStyles, ...styles.loading};
     }
-
     return (
-      <Link className="image image--border" style={ computedStyles } to={`${postUrl}/${image._id}`}>
+      <Link className="image image--border" style={ computedStyles } to={`${image.postUrl}/${image._id}`}>
         { this.state.imageVisible ?
            <img alt={image.label} style={{display:this.state.imageLoaded ? 'inline-block' : 'none'}} className="element__image" onLoad={this.onLoad} src={ `http://eg0.me/uploads/ego/orig/${image.file}` } />
            :
-           <p style={{padding:15}}>{image.label}</p>
+           null
         }
       </Link>
     );

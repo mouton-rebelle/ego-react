@@ -3,35 +3,6 @@ import cx from 'classnames';
 import PostImage from './PostImage';
 import PostHeader from './PostHeader';
 
-//
-
-/*
-  Recursively render the child til we hit an image.
-  c : element to render
-  rootId: base post index
-  level: base post child index
-  indice : current post index
- */
-function renderChild(c, postUrl)
-{
-  if(c.child)
-  {
-    let styles = {flexBasis: c.weight + '%', WebkitFlexBasis: c.weight + '%'};
-
-    let classes = cx('element__content', {'element__content--horizontal': c.horizontal});
-    let ids = 'mesh_' + flattenImages(c, []).map(img => img._id).join('-');
-    return (
-      <div className={classes} key={ids} style={styles}>
-        { c.child.map( (c2) => renderChild(c2, postUrl) ) }
-      </div>);
-  } else {
-    if (c.image)
-    {
-      return <PostImage postUrl={postUrl} image={c.image} key={c.image.id} weight={c.weight}/>;
-    }
-  }
-}
-
 function flattenImages(c, images)
 {
   if (c.image)
@@ -49,29 +20,81 @@ function flattenImages(c, images)
   }
 }
 
+class PostMesh extends Component{
+
+  render(){
+    const {  horizontal, children, weight, childWeight } = this.props;
+
+    let meshStyle = {
+      minHeight: 100
+    };
+
+    if (horizontal)
+    {
+      meshStyle.display = 'flex;display:-webkit-flex';
+    }
+
+    return (
+      <section style={meshStyle}>
+      { React.Children.map( this.props.children, (c, i) => {
+        let childStyle = {};
+        if (horizontal)
+        {
+          childStyle.flexBasis = `${childWeight[i]}%`;
+          childStyle.WebkitFlexBasis = `${childWeight[i]}%`;
+        }
+        return (
+          <article key={i} style={childStyle}>
+            {c}
+          </article>
+        );
+      }) }
+      </section>
+    );
+  }
+}
+
+class PostTree extends Component{
+
+  static propTypes = {
+    child      : PropTypes.array.isRequired,
+    horizontal : PropTypes.bool,
+    weight     : PropTypes.number
+  };
+
+  render(){
+    const {  horizontal, child, weight } = this.props;
+    const childWeight = child.map(c => c.weight);
+    return (
+      <PostMesh childWeight={childWeight} horizontal={horizontal} weight={weight}>
+        { child.map( (c, indice) => {
+          if (c.image)
+          {
+            return <PostImage image={c.image} key={c.image.id}/>;
+          } else {
+            return <PostTree child={c.child} horizontal={c.horizontal} key={indice} weight={c.weight}/>;
+          }
+        })}
+      </PostMesh>
+    );
+
+  }
+}
 
 export default class Post extends Component{
 
   static propTypes = {
-    child      : PropTypes.array.isRequired,
-    desc       : PropTypes.string,
-    horizontal : PropTypes.bool,
-    id         : PropTypes.string.isRequired,
-    title      : PropTypes.string.isRequired
+    post      : PropTypes.object.isRequired
   };
 
   render() {
-    const { title, desc, horizontal, child, id } = this.props;
-    const elementClass = cx('element__content', 'element__content--root', {'element__content--horizontal': horizontal});
-    const images = flattenImages(this.props, []);
-    const dates = images.map( img => img.takenOn).sort( (a, b) => a > b ? 1 : -1);
-    const postUrl = `/post/${id}`;
+    const { post } = this.props;
+    const images   = flattenImages(post, []);
+    const dates    = images.map( img => img.takenOn).sort( (a, b) => a > b ? 1 : -1);
     return (
       <div className="element">
-        <PostHeader dates={dates} desc={desc} kind="light" title={title}/>
-        <div className={elementClass}>
-          { child.map( (c) => renderChild(c, postUrl) ) }
-        </div>
+        <PostHeader dates={dates} desc={post.desc} kind="light" title={post.title}/>
+        <PostTree child={post.child} horizontal={post.horizontal} />
       </div>
     );
   }
