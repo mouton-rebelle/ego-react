@@ -42,11 +42,9 @@ export default class SinglePostPage extends Component {
     } else {
       return (
         p ? (<Post
-          child={p.child}
-          desc={p.desc}
-          horizontal={p.horizontal}
+          post={p}
           id={p._id}
-          title={p.title}
+          key={p._id}
           />) : null
       );
     }
