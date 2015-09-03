@@ -10,6 +10,7 @@ const initialState = {
   pending:false
 };
 export default function posts(state = initialState, action) {
+  console.log(action);
   switch (action.type) {
     case POST_LOAD_PAGE_PENDING:
       return {...state, pending:true};

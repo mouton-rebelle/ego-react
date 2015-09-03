@@ -15,13 +15,9 @@ export default class PagedPosts extends Component {
 
   static propTypes={
     dispatch: PropTypes.func.isRequired,
-    params: PropTypes.object
+    params: PropTypes.object,
+    posts: PropTypes.array
   };
-
-  loadPostForCurrentPage() {
-    let page = _get(this.props, 'params.currentPage', 1) * 1;
-    this.props.dispatch(postLoadPage(page, nbPerPage));
-  }
 
   componentWillMount() {
     console.warn('this call shall not be necessary once server side render works');
@@ -36,11 +32,15 @@ export default class PagedPosts extends Component {
     {
       this.props.dispatch(postLoadPage(nextPage, nbPerPage));
     }
+  }
 
+  loadPostForCurrentPage() {
+    let page = _get(this.props, 'params.currentPage', 1) * 1;
+    this.props.dispatch(postLoadPage(page, nbPerPage));
   }
 
   render() {
-    const { posts, params, nbPages } = this.props;
+    const { params, posts, nbPages } = this.props;
     const currentPage = params.currentPage ? 1 * params.currentPage : 1;
     return (
       <div>
