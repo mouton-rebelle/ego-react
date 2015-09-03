@@ -22,17 +22,12 @@ let listPostImageIds = function (post)
 
 let replaceImagesInPost = function(post, images, id)
 {
-  images = images.map( img => {
-    img.postUrl = `/post/${id}`;
-    return img;
-  });
-
-
   if (!post.child && post._id)
   {
     post.image = images.filter(function(img){
       return img._id + '' === post._id + '';
     })[0];
+    post.image.postUrl = `/post/${id}`;
   } else {
     post.child = post.child.map( (p) => {
       p = replaceImagesInPost(p, images, id);
@@ -41,7 +36,7 @@ let replaceImagesInPost = function(post, images, id)
     // console.log(post.child);
   }
   return post;
-}
+};
 
 module.exports = {
   getById: function *(id)
