@@ -10,12 +10,11 @@ export default class PostsList extends Component{
     const { posts } = this.props;
     return (
       <div>
-        {posts.map( (p, index) =>
-          <div key={index}>
+        {posts.map( p =>
+          <div key={p._id}>
             <Post
-              post={p}
               id={p._id}
-              key={p._id}
+              post={p}
               />
             </div>
         )}

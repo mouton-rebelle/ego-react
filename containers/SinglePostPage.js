@@ -42,9 +42,9 @@ export default class SinglePostPage extends Component {
     } else {
       return (
         p ? (<Post
-          post={p}
           id={p._id}
           key={p._id}
+          post={p}
           />) : null
       );
     }

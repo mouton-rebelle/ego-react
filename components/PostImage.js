@@ -95,6 +95,7 @@ export default class PostImage extends Component {
     {
       computedStyles = {...computedStyles, ...styles.loading};
     }
+
     return (
       <Link className="image image--border" style={ computedStyles } to={`${image.postUrl}/${image._id}`}>
         { this.state.imageVisible ?
