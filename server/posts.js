@@ -1,3 +1,4 @@
+/*eslint-env node */
 let _       = require('lodash');
 let conn    = require('monk')('localhost/ego');
 let db      = {
@@ -61,7 +62,7 @@ module.exports = {
     let ids = _.uniq(posts.reduce( (cids, post) => {
       cids.push(...listPostImageIds(post));
       return cids;
-    },[]));
+    }, []));
 
     // query images
     let images =  yield db.images.find({_id:{$in:ids}});
@@ -74,7 +75,7 @@ module.exports = {
 
     return {
       posts: posts,
-      contentRange: 'posts ' +range[0] + '-' + range[1]+'/'+total,
+      contentRange: `posts ${range[0]}-${range[1]}${total}`,
       partial: posts.length < total
     };
   },

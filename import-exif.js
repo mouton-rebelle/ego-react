@@ -48,7 +48,7 @@ function batch(pos)
       (yield images.map( img => {
         return function *(){
           let filename = './orig/' + img.file;
-          (yield _.map(metas, (meta,key) => {
+          (yield _.map(metas, (meta, key) => {
             return function *(){
               img[key] = yield getExif(filename, meta);
             };

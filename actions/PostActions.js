@@ -22,6 +22,10 @@ export const postLoadPage = function (page, nbPerPage) {
       POST_LOAD_PAGE_FULFILLED,
       POST_LOAD_PAGE_REJECTED
     ],
+    meta: {
+      page: page,
+      nbPerPage : nbPerPage
+    },
     payload: {
       promise: request('http://' + window.location.hostname + ':8080/api/posts').set('range', range.join('-')).promise()
     }

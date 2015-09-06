@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import PostHeader from '../components/PostHeader';
-import PostComments from '../components/PostComments';
+import PostCommentsContainer from './PostCommentsContainer';
 import PostTree from './PostTree';
 
 function flattenImages(c, images)
@@ -12,7 +12,6 @@ function flattenImages(c, images)
   } else {
     if (!c.child)
     {
-      console.error(c);
       return null;
     }
     c.child.forEach( child => flattenImages(child, images));
@@ -36,7 +35,7 @@ export default class Post extends Component{
       <section className="element">
         <PostHeader dates={dates} desc={post.desc} kind="light" title={post.title}/>
         <PostTree child={post.child} horizontal={post.horizontal} />
-        <PostComments comments={post.comments} />
+        <PostCommentsContainer count={post.comments.length} postId={post._id} />
       </section>
     );
   }

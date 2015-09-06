@@ -28,15 +28,15 @@ let styles = {
 export default class Btn extends Component {
 
   static propTypes = {
-    kind : PropTypes.oneOf('primary', 'secondary'),
-    // onClick: PropTypes.function,
+    handler: PropTypes.function,
+    kind : PropTypes.string,
     text : PropTypes.string.isRequired,
     url: PropTypes.string
   };
 
   render() {
     const kind = this.props.kind || 'primary';
-    const { url, text } = this.props;
+    const { url, text, handler} = this.props;
     if (url)
     {
       return (
@@ -47,7 +47,7 @@ export default class Btn extends Component {
         </Link>
       );
     } else {
-      return <button>{text}</button>;
+      return <button onClick={handler} style={ { ...styles.base, ...styles[kind]} }>{text}</button>;
     }
 
   }

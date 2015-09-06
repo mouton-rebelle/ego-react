@@ -1,3 +1,4 @@
+/*eslint-env node */
 let _        = require('lodash');
 let co       = require('co');
 let php      = require('phpjs');
@@ -6,8 +7,9 @@ let mysql    = require('co-mysql')(require('mysql').createConnection({
   host     : 'localhost',
   user     : config.mysql.user,
   password : config.mysql.password,
-  database : config.mysql.db,
+  database : config.mysql.db
 }));
+
 let mongodb = require('monk')('localhost/ego');
 const SITE  = config.site;
 
@@ -24,7 +26,7 @@ let mongo = {
   posts    : mongodb.get('posts'),
   tags     : mongodb.get('tags'),
   comments : mongodb.get('comments')
-}
+};
 
 
 function getDefaultStyle(nb)
@@ -36,23 +38,23 @@ function getDefaultStyle(nb)
     case 2:
       return '1.h.2';
     case 3:
-      return "2.v.3\r\nm1.h.1";
+      return '2.v.3\r\nm1.h.1';
     case 4:
-      return "1.v.2\r\n3.v.m1\r\nm2.h.4";
+      return '1.v.2\r\n3.v.m1\r\nm2.h.4';
     case 5:
-      return "1.h.2\r\n3.h.4\r\nm1.v.m2\r\nm3.v.5";
+      return '1.h.2\r\n3.h.4\r\nm1.v.m2\r\nm3.v.5';
     case 6:
-      return "1.h.2\r\n3.h.4\r\nm1.v.m2\r\n5.h.6\r\nm3.v.m4";
+      return '1.h.2\r\n3.h.4\r\nm1.v.m2\r\n5.h.6\r\nm3.v.m4';
     case 7:
-      return "1.h.2\r\n3.h.4\r\n5.h.6\r\nm1.v.m2\r\nm3.h.7\r\nm4.v.m5";
+      return '1.h.2\r\n3.h.4\r\n5.h.6\r\nm1.v.m2\r\nm3.h.7\r\nm4.v.m5';
     case 8:
-      return "1.h.2\r\n3.h.4\r\n5.h.6\r\nm1.v.m2\r\nm3.h.7\r\nm4.v.m5\r\nm6.v.8";
+      return '1.h.2\r\n3.h.4\r\n5.h.6\r\nm1.v.m2\r\nm3.h.7\r\nm4.v.m5\r\nm6.v.8';
     case 9:
-      return "1.h.2\r\n3.h.4\r\n5.h.6\r\n7.h.8\r\nm1.v.m2\r\nm3.v.m4\r\nm5.h.m6\r\nm7.v.9";
+      return '1.h.2\r\n3.h.4\r\n5.h.6\r\n7.h.8\r\nm1.v.m2\r\nm3.v.m4\r\nm5.h.m6\r\nm7.v.9';
     case 10:
-      return "1.h.2\r\n3.h.4\r\n5.h.6\r\n7.h.8\r\nm1.v.m2\r\nm3.v.m4\r\nm5.h.m6\r\nm7.v.9\r\nm8.h.10";
+      return '1.h.2\r\n3.h.4\r\n5.h.6\r\n7.h.8\r\nm1.v.m2\r\nm3.v.m4\r\nm5.h.m6\r\nm7.v.9\r\nm8.h.10';
     default:
-      throw "UNHANDLED : " + nb;
+      throw 'UNHANDLED : ' + nb;
   }
 }
 
@@ -65,7 +67,7 @@ co(function *(){
     yield mongo.posts.drop();
   } catch (err)
   {
-
+    console.log(err);
   }
   let cedric = yield mongo.users.insert({
     firstname : 'Cédric',
@@ -73,9 +75,9 @@ co(function *(){
     email     : 'cf@eg0.me'
   });
   // yield mongo.elements.drop();
-  let elements = yield mysql.query(queries.elements,[SITE]);
-  let tags     = yield mysql.query(queries.tags,[SITE]);
-  let comments = yield mysql.query(queries.comments,[SITE]);
+  let elements = yield mysql.query(queries.elements, [SITE]);
+  let tags     = yield mysql.query(queries.tags, [SITE]);
+  let comments = yield mysql.query(queries.comments, [SITE]);
   elements.map( function(re) {
     delete re.site;
     delete re.active;
@@ -96,16 +98,16 @@ co(function *(){
       delete re.file;
     } else {
       delete re.style;
-      re.ratio = re.width/re.height;
+      re.ratio = re.width / re.height;
       re.tags = tags
-        .filter(t=>t.element_id==re.id)
+        .filter(t=>t.element_id === re.id)
         .map(t=>t.text);
     }
     if (re.parent_id === null)
     {
       re.comments = comments
-        .filter(c=>c.element_id==re.id)
-        .map(c => {return {text:c.text,author:c.signature,when:c.created_at}});
+        .filter(c=>c.element_id === re.id)
+        .map(c => {return {text:c.text, author:c.signature, when:c.created_at}});
     }
 
     return re;

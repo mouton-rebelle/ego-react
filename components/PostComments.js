@@ -5,8 +5,7 @@ import CommentForm from './CommentForm';
 export default class PostComments extends Component{
 
   static propTypes = {
-    comments : PropTypes.array,
-    postId : PropTypes.number.required
+    comments : PropTypes.array
   };
 
   render() {
@@ -20,7 +19,6 @@ export default class PostComments extends Component{
             );
           })}
         </div>
-      <CommentForm postId={ 3 } />
       </div>
     );
   }
