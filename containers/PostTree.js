@@ -15,7 +15,7 @@ export default class PostTree extends Component{
     const {  horizontal, child, weight } = this.props;
     const childWeight = child.map(c => c.weight);
     return (
-      <PostMesh childWeight={childWeight} horizontal={horizontal} weight={weight}>
+      <PostMesh childWeight={childWeight} horizontal={horizontal}>
         { child.map( (c, indice) => {
           if (c.image)
           {

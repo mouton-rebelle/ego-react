@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import PostHeader from '../components/PostHeader';
+import PostComments from '../components/PostComments';
 import PostTree from './PostTree';
 
 function flattenImages(c, images)
@@ -32,10 +33,11 @@ export default class Post extends Component{
     const images   = flattenImages(post, []);
     const dates    = images.map( img => img.takenOn).sort( (a, b) => a > b ? 1 : -1);
     return (
-      <div className="element">
+      <section className="element">
         <PostHeader dates={dates} desc={post.desc} kind="light" title={post.title}/>
         <PostTree child={post.child} horizontal={post.horizontal} />
-      </div>
+        <PostComments comments={post.comments} />
+      </section>
     );
   }
 }

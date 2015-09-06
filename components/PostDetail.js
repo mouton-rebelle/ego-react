@@ -66,7 +66,7 @@ export default class Post extends Component{
     const images = flattenImages(this.props, []);
     const postUrl = `/post/${id}`;
     const image = images.filter( img => img._id === imageId)[0];
-    const overlayStyle = {backgroundImage:`url(http://eg0.me/uploads/ego/orig/${image.file})`};
+    const overlayStyle = {backgroundImage:`url(/orig/${image.file})`};
     return (
       <div className="overlay" style={overlayStyle}>
         <div className="overlay__hud" style={ {opacity:this.state.hud ? 1 : 0} }>
@@ -78,7 +78,7 @@ export default class Post extends Component{
           <div className="imagePicker">
             { images.map( img => {
               let style = {
-                backgroundImage:`url(http://eg0.me/uploads/ego/orig/${img.file})`,
+                backgroundImage:`url(/orig/${img.file})`,
                 flexBasis:`${50 / img.ratio}px`,
                 WebkitFlexBasis:`${img.ratio * 50}px`
               };

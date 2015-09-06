@@ -4,8 +4,8 @@ import React, { PropTypes, Component } from 'react';
 export default class PostMesh extends Component{
 
   static propTypes = {
-    childWeight: PropTypes.number,
-    children: PropTypes.Object,
+    childWeight: PropTypes.array,
+    children: PropTypes.array,
     horizontal: PropTypes.bool
   };
 
@@ -22,7 +22,7 @@ export default class PostMesh extends Component{
     }
 
     return (
-      <section style={meshStyle}>
+      <div style={meshStyle}>
       { React.Children.map( children, (c, i) => {
         let childStyle = {};
         if (horizontal)
@@ -31,12 +31,12 @@ export default class PostMesh extends Component{
           childStyle.WebkitFlexBasis = `${childWeight[i]}%`;
         }
         return (
-          <article key={i} style={childStyle}>
+          <div key={i} style={childStyle}>
             {c}
-          </article>
+          </div>
         );
       }) }
-      </section>
+      </div>
     );
   }
 }

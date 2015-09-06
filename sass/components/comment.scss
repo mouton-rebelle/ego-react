@@ -1,0 +1,31 @@
+@import '../common/variables';
+
+.comment{
+  border:1px solid $light-grey;
+  margin-bottom: 10px;
+  border-radius: 0.3em;
+  &__text{
+    padding:0.7em;
+    color: #777;
+  }
+  &__meta{
+    background:$light-grey;
+    align-items:center;
+    justify-content:space-between;
+    display: flex;
+
+    &__author{
+      @extend %custom-font;
+      font-size: 13px;
+      padding:0.7em;
+      color: $brand-primary;
+      flex-grow:1;
+    }
+    &__date{
+      flex:1 0 190px;
+      padding:0.7em;
+      text-align: right;
+      font-size: 13px;
+    }
+  }
+}
