@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import { connect } from 'react-redux';
 import { postLoadById } from '../actions/PostActions';
-import Post from '../components/Post';
+import Post from './Post';
 import PostDetail from '../components/PostDetail';
 
 

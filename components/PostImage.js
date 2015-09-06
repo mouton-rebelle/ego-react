@@ -98,8 +98,8 @@ export default class PostImage extends Component {
 
     return (
       <Link className="image image--border" style={ computedStyles } to={`${image.postUrl}/${image._id}`}>
-        { this.state.imageVisible ?
-           <img alt={image.label} style={{display:this.state.imageLoaded ? 'inline-block' : 'none'}} className="element__image" onLoad={this.onLoad} src={ `http://eg0.me/uploads/ego/orig/${image.file}` } />
+        { this.state.imageVisible ? // http://eg0.me/uploads/ego/
+           <img alt={image.label} style={{display:this.state.imageLoaded ? 'inline-block' : 'none'}} className="element__image" onLoad={this.onLoad} src={ `/orig/${image.file}` } />
            :
            null
         }

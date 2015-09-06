@@ -26,8 +26,14 @@ export default class Pager extends Component {
   render() {
 
     const { basePath, nbPages, currentPage } = this.props;
-    let startPager = currentPage - Math.floor(numPagesToShow / 2);
     let pages = [];
+    if (nbPages < 2)
+    {
+      return <div/>;
+    }
+
+    let startPager = currentPage - Math.floor(numPagesToShow / 2);
+
     if (startPager < 1)
     {
       startPager = 1;

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {Link} from 'react-router';
 import { colors, customFont} from '../styles/common';
-import Radium from 'Radium';
+
 
 let styles = {
   base: {
@@ -25,7 +25,6 @@ let styles = {
   }
 };
 
-@Radium
 export default class Btn extends Component {
 
   static propTypes = {

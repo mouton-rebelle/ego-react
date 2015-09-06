@@ -23,7 +23,7 @@ export const postLoadPage = function (page, nbPerPage) {
       POST_LOAD_PAGE_REJECTED
     ],
     payload: {
-      promise: request('http://pro.local:8080/api/posts').set('range', range.join('-')).promise()
+      promise: request('http://' + window.location.hostname + ':8080/api/posts').set('range', range.join('-')).promise()
     }
   };
 };
@@ -36,7 +36,7 @@ export const postLoadById = function (id) {
       POST_LOAD_BYID_REJECTED
     ],
     payload: {
-      promise: request(`http://pro.local:8080/api/post/${id}`).promise()
+      promise: request(`http://${window.location.hostname}:8080/api/post/${id}`).promise()
     }
   };
 };

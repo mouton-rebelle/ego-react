@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 
-import Post from '../components/Post';
+import Post from './Post';
 
 export default class PostsList extends Component{
   static propTypes = {
