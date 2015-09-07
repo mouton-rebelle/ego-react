@@ -3,7 +3,6 @@ import Btn from './Btn';
 export default class CommentForm extends Component{
 
   static propTypes = {
-    postId : PropTypes.string.isRequired,
     save   : PropTypes.func.isRequired
   };
 
@@ -17,7 +16,6 @@ export default class CommentForm extends Component{
 
   authorChanged(e)
   {
-    console.log(e);
     this.setState({author:e.target.value});
   }
 
@@ -38,7 +36,7 @@ export default class CommentForm extends Component{
       <div className="com__form">
         <textarea onChange={this.textChanged.bind(this)} value={ this.state.text }/>
         <br/>
-        <input  onChange={this.authorChanged.bind(this)} placeholder="signature" type="text" value={ this.state.author }/><br />
+        <input onChange={this.authorChanged.bind(this)} placeholder="signature" type="text" value={ this.state.author }/><br />
         <Btn handler={this.save.bind(this)} kind="primary" text="add comment" />
       </div>
     );

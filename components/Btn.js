@@ -13,6 +13,7 @@ let styles = {
     textTransform: 'uppercase',
     color: '#FFF',
     borderRadius: 2,
+    border:0,
     letterSpacing: '0.06em',
     backgroundColor: colors.brand.primary,
     ':hover':{
@@ -28,8 +29,8 @@ let styles = {
 export default class Btn extends Component {
 
   static propTypes = {
-    handler: PropTypes.function,
-    kind : PropTypes.string,
+    handler: PropTypes.func,
+    kind : PropTypes.oneOf(['primary', 'alt']),
     text : PropTypes.string.isRequired,
     url: PropTypes.string
   };

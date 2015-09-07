@@ -5,12 +5,14 @@ var _           = require('lodash');
 var serve       = require('koa-static');
 var postsApi    = require('./posts.js');
 var commentsApi = require('./comments.js');
+var bodyParser  = require('koa-bodyparser');
 
 var app         = koa();
 var router      = new Router();
 
 app.use(serve('public'));
 app.use(serve('orig'));
+app.use(bodyParser());
 
 router.get('/api/comments/post/:id', function *(next){
   this.type    = 'application/json';
@@ -27,8 +29,9 @@ router.get('/api/post/:id', function *(next){
 });
 
 router.post('/api/comments', function *(next){
-  this.type = 'application/json';
-  console.log(this.body);
+  this.type   = 'application/json';
+  let comment = yield commentsApi.save(this.request.body);
+  this.body   = JSON.stringify(comment);
 });
 
 router.get('/api/posts', function *(next) {

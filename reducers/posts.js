@@ -4,14 +4,15 @@ import {
   POST_LOAD_PAGE_REJECTED,
   POST_LOAD_BYID_PENDING,
   POST_LOAD_BYID_FULFILLED,
-  POST_LOAD_BYID_REJECTED
+  POST_LOAD_BYID_REJECTED,
+  COM_SAVE_FULFILLED
 } from '../constants/ActionTypes';
 
 const initialState = {
-  list    : [],
-  byId    : {},
+  count   : 0,
   nbPages : 0,
-  range   : [0, 0],
+  byId    : {},
+  byPage  : {},
   pending : false
 };
 
@@ -19,29 +20,38 @@ export default function posts(state = initialState, action) {
 
   switch (action.type) {
 
+    case COM_SAVE_FULFILLED:
+      let com    = action.payload.body;
+      let postId = com.post;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [postId]:{
+            ...state.byId[postId],
+            comments: [...state.byId[postId].comments, com._id]
+          }
+        }
+      };
+
     case POST_LOAD_PAGE_PENDING:
       return {...state, pending:true};
 
     case POST_LOAD_PAGE_FULFILLED:      // parses our header "posts 30-40/2000"
-
-      console.warn('cleanup here', action);
-
-      let [range, count] = action.payload.headers['content-range'].replace('posts ', '').split('/');
-      range = range.split('-').map(v=>parseInt(v));
-
-      // @TODO : won't work for the last page, need to wrap the returned promise
-      let nbPerPage = range[1] - range[0];
+      let [, count] = action.payload.headers['content-range'].replace('posts ', '').split('/');
+      let nbPerPage = action.meta.nbPerPage;
       let newPostsById = {};
+      let byPage = [];
       action.payload.body.forEach(post => {
         newPostsById[post._id] = post;
+        byPage.push(post._id);
       });
       return {
         count: parseInt(count),
         pending: false,
         nbPages: parseInt(count / nbPerPage),
-        range: range,
         byId: {...state.byId, ...newPostsById},
-        list: action.payload.body
+        byPage: {...state.byPage, [action.meta.page]:byPage}
       };
 
     case POST_LOAD_BYID_FULFILLED:

@@ -14,7 +14,7 @@ export default class Comment extends Component{
     moment.locale('fr');
     const { author, text, when } = this.props;
     return (
-      <div className="comment">
+      <div className="comment comlist__item">
         <div className="comment__text">
           {{ text }}
         </div>

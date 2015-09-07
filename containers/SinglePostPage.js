@@ -18,7 +18,6 @@ export default class SinglePostPage extends Component {
   };
 
   componentWillMount() {
-    console.log(this.props);
     if (!this.props.byId[this.props.params.id])
     {
       this.props.dispatch(postLoadById(this.props.params.id));

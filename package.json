@@ -20,6 +20,7 @@
     "eslint": "^0.24.1",
     "gm": "^1.18.1",
     "koa": "^0.21.0",
+    "koa-bodyparser": "^2.0.1",
     "koa-router": "^5.1.2",
     "koa-static": "^1.4.9",
     "lodash": "^3.10.0",

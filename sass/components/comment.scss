@@ -1,19 +1,36 @@
 @import '../common/variables';
+.comlist{
+  display: flex;
+  align-items:stretch;
+  flex-wrap:wrap;
+  &__item{
+    flex:1 1;
+    min-width: 300px;
+    margin: 5px;
+  }
+}
 
 .comment{
   border:1px solid $light-grey;
   margin-bottom: 10px;
   border-radius: 0.3em;
+  display: flex;
+  flex-direction: column;
   &__text{
     padding:0.7em;
     color: #777;
+    flex-grow:1;
+    &:before{
+      content:'“';
+      font-size: 30px;
+    }
   }
   &__meta{
     background:$light-grey;
     align-items:center;
     justify-content:space-between;
     display: flex;
-
+    flex:0 0 40px;
     &__author{
       @extend %custom-font;
       font-size: 13px;

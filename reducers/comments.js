@@ -11,7 +11,6 @@ import {
 } from '../constants/ActionTypes';
 
 const initialState = {
-  byId    : {},
   recents : [],
   byPost  : {},
   saving : false
@@ -19,13 +18,28 @@ const initialState = {
 
 export default function comments(state = initialState, action) {
   switch (action.type) {
+
     case COM_SAVE_PENDING:
       return {...state, saving:true};
+
+    case COM_SAVE_FULFILLED:
+      let com    = action.payload.body;
+      let postId = com.post;
+      return {
+        saving:false,
+        byPost:{
+          ...state.byPost,
+          [postId]: [...state.byPost[postId], com]
+        },
+        recents:[...state.recents, com]
+      };
+
     case COM_LOAD_BYPOST_FULFILLED:      // parses our header "posts 30-40/2000"
       return {...state,
           byPost:{...state.byPost,
             [action.meta.postId]:action.payload.body}
       };
+
     default:
       return state;
   }

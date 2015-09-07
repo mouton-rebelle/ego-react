@@ -1,6 +1,9 @@
 {
   "verbose": true,
   "ignore": ["*.test.js", "fixtures/*", "orig", ".git"],
+  "watch": [
+    "server/"
+  ],
   "execMap": {
     "js": "node --harmony"
   }

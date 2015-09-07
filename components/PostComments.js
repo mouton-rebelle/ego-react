@@ -12,10 +12,10 @@ export default class PostComments extends Component{
     const { comments } = this.props;
     return (
       <div>
-        <div className="com__list">
+        <div className="comlist">
           { comments.map( (com, indice) => {
             return (
-              <Comment author= {com.author} key={indice} text = {com.text} when={com.when} />
+              <Comment author={com.author} key={indice} text={com.text} when={com.when} />
             );
           })}
         </div>

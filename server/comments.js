@@ -1,5 +1,4 @@
 /*eslint-env node */
-let _       = require('lodash');
 let conn    = require('monk')('localhost/ego');
 let db      = {
   comments : require('co-monk')(conn.get('comments')),
@@ -7,18 +6,30 @@ let db      = {
 };
 
 module.exports = {
+
   getByPostId: function *(id)
   {
     return yield db.comments.find({post:db.posts.id(id)});
   },
+
   save: function *(comment)
   {
-    console.log(comment);
+    comment.post = db.posts.id(comment.post);
+    comment.when = new Date();
+    yield db.comments.insert(comment);
+    yield db.posts.updateById(comment.post,
+      {
+        $push:
+          {
+            comments: comment._id
+          }
+      }
+    );
     return comment;
   },
+
   getRecents: function *()
   {
-
     let comments = yield db.comments.find({},
     {
       sort  : { when: -1},
