@@ -1,44 +1,40 @@
 import React, { PropTypes, Component } from 'react';
 import Btn from './Btn';
+import {connectReduxForm} from 'redux-form';
+
+function validateComment(data) {
+  const errors = {};
+  if(!data.author) {
+    errors.author = 'Required';
+  }
+  if(!data.text || data.text.length < 5) {
+    errors.text = 'At least 5 chars';
+  }
+
+  return errors;
+}
+
+@connectReduxForm({
+  form: 'contact',
+  fields: ['author', 'text'],
+  validate: validateComment
+})
 export default class CommentForm extends Component{
 
   static propTypes = {
-    save   : PropTypes.func.isRequired
+    fields       : PropTypes.object.isRequired,
+    handleSubmit : PropTypes.func.isRequired
   };
 
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      author:'',
-      text: ''
-    };
-  }
-
-  authorChanged(e)
-  {
-    this.setState({author:e.target.value});
-  }
-
-  textChanged(e)
-  {
-    this.setState({text:e.target.value});
-  }
-
-  save(){
-    let com = {
-      text: this.state.text,
-      author: this.state.author
-    };
-    this.props.save(com);
-  }
   render() {
+    const { fields: {author, text}, handleSubmit } = this.props;
     return (
-      <div className="com__form">
-        <textarea onChange={this.textChanged.bind(this)} value={ this.state.text }/>
+      <form className="com__form" onSubmit={handleSubmit}>
+        <textarea {...text}/>
         <br/>
-        <input onChange={this.authorChanged.bind(this)} placeholder="signature" type="text" value={ this.state.author }/><br />
-        <Btn handler={this.save.bind(this)} kind="primary" text="add comment" />
-      </div>
+        <input {...author}/><br />
+        <Btn kind="primary" text="add comment" onClick={handleSubmit}/>
+      </form>
     );
   }
 }

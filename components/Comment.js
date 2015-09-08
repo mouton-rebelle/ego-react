@@ -16,7 +16,7 @@ export default class Comment extends Component{
     return (
       <div className="comment comlist__item">
         <div className="comment__text">
-          {{ text }}
+          { text }
         </div>
         <div className="comment__meta">
           <span className="comment__meta__author">{ author}</span>

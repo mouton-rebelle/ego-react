@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {Link} from 'react-router';
 import { colors, customFont} from '../styles/common';
-
+import Radium from 'Radium';
 
 let styles = {
   base: {
@@ -25,7 +25,7 @@ let styles = {
     paddingRight: 2
   }
 };
-
+@Radium
 export default class Btn extends Component {
 
   static propTypes = {
@@ -48,7 +48,7 @@ export default class Btn extends Component {
         </Link>
       );
     } else {
-      return <button onClick={handler} style={ { ...styles.base, ...styles[kind]} }>{text}</button>;
+      return ( <button onClick={handler} style={ { ...styles.base, ...styles[kind]} }>{text}</button> );
     }
 
   }

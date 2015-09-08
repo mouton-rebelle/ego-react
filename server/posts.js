@@ -34,12 +34,12 @@ let replaceImagesInPost = function(post, images, id)
       p = replaceImagesInPost(p, images, id);
       return p;
     });
-    // console.log(post.child);
   }
   return post;
 };
 
 module.exports = {
+
   getById: function *(id)
   {
     let post = yield db.posts.findOne({_id:id});
@@ -47,6 +47,7 @@ module.exports = {
     let images =  yield db.images.find({_id:{$in:ids}});
     return replaceImagesInPost(post, images, id);
   },
+
   getByRange: function *(...range)
   {
     let count = Math.min(range[1] - range[0], maxPerPage);
@@ -72,13 +73,13 @@ module.exports = {
       return replaceImagesInPost(post, images, post._id);
     });
 
-
     return {
       posts: posts,
       contentRange: `posts ${range[0]}-${range[1]}/${total}`,
       partial: posts.length < total
     };
   },
+
   count: function()
   {
     return  db.posts.count({});

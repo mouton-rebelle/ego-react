@@ -41,8 +41,8 @@ export default class PostCommentsContainer extends Component {
     dispatch(getCommentsForPost(postId));
   }
 
-  saveCommentForPost(comment) {
-    const { postId, dispatch } = this.props;
+  handleSubmit(postId, comment) {
+    const { dispatch } = this.props;
     comment.post = postId;
     dispatch(saveComment(comment));
   }
@@ -61,7 +61,7 @@ export default class PostCommentsContainer extends Component {
           handler={this.toggleVisibility.bind(this)}
           text={btnText} />
         { this.state.visible && commentsByPostId[postId] ? <PostComments comments={commentsByPostId[postId]} /> : null }
-        { this.state.visible ? <CommentForm save={this.saveCommentForPost.bind(this)}/> : null }
+        { this.state.visible ? <CommentForm formKey={postId} onSubmit={this.handleSubmit.bind(this, postId)}/> : null }
       </div>
     );
   }

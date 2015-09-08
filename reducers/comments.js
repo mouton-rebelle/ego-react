@@ -13,6 +13,7 @@ import {
 const initialState = {
   recents : [],
   byPost  : {},
+  shownForPost:[],
   saving : false
 };
 
