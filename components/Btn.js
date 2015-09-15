@@ -8,7 +8,6 @@ let styles = {
     ...customFont,
     display: 'inline-block',
     padding: '3px 7px',
-    margin: '2px',
     textDecoration: 'none',
     textTransform: 'uppercase',
     color: '#FFF',

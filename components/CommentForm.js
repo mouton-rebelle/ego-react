@@ -29,11 +29,11 @@ export default class CommentForm extends Component{
   render() {
     const { fields: {author, text}, handleSubmit } = this.props;
     return (
-      <form className="com__form" onSubmit={handleSubmit}>
-        <textarea {...text}/>
+      <form className="com-form" onSubmit={handleSubmit}>
+        <textarea {...text} rows="4" className="com-form__input com-form__input--textarea" />
         <br/>
-        <input {...author}/><br />
-        <Btn kind="primary" text="add comment" onClick={handleSubmit}/>
+        <input className="com-form__input" {...author}/><br />
+        <Btn handler={handleSubmit} kind="primary" text="add comment"/>
       </form>
     );
   }

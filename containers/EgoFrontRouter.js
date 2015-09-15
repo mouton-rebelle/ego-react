@@ -44,9 +44,7 @@ export default class EgoFrontRouter  extends Component {
             </Router>
           }
         </Provider>
-        <DebugPanel bottom right top>
-          <DevTools store={store} monitor={LogMonitor} />
-        </DebugPanel>
+
       </div>
     );
   }
