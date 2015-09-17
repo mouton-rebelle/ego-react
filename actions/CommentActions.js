@@ -6,12 +6,32 @@ import {
   COM_LOAD_BYPOST_PENDING,
   COM_LOAD_BYPOST_FULFILLED,
   COM_LOAD_BYPOST_REJECTED,
+  COM_HIDE_BYPOST,
+  COM_SHOW_BYPOST,
   COM_LOAD_RECENT_PENDING,
   COM_LOAD_RECENT_FULFILLED,
   COM_LOAD_RECENT_REJECTED
 } from '../constants/ActionTypes';
 
 const baseUrl = `http://${window.location.hostname}:8080/api/comments`;
+
+export const showCommentsForPost = function(postId) {
+  return {
+    type: COM_SHOW_BYPOST,
+    payload: {
+      postId: postId
+    }
+  };
+};
+
+export const hideCommentsForPost = function(postId) {
+  return {
+    type: COM_HIDE_BYPOST,
+    payload: {
+      postId: postId
+    }
+  };
+};
 
 export const getCommentsForPost = function (postId) {
   return {

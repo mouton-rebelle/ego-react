@@ -5,6 +5,8 @@ import {
   COM_LOAD_BYPOST_PENDING,
   COM_LOAD_BYPOST_FULFILLED,
   COM_LOAD_BYPOST_REJECTED,
+  COM_HIDE_BYPOST,
+  COM_SHOW_BYPOST,
   COM_LOAD_RECENT_PENDING,
   COM_LOAD_RECENT_FULFILLED,
   COM_LOAD_RECENT_REJECTED
@@ -19,6 +21,13 @@ const initialState = {
 
 export default function comments(state = initialState, action) {
   switch (action.type) {
+    case COM_SHOW_BYPOST:
+      state.shownForPost = [...state.shownForPost, action.payload.postId];
+      return state;
+
+    case COM_HIDE_BYPOST:
+      state.shownForPost = state.shownForPost.filter(p => p !== action.payload.postId);
+      return state;
 
     case COM_SAVE_PENDING:
       return {...state, saving:true};

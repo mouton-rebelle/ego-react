@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {Link} from 'react-router';
 import { colors, customFont} from '../styles/common';
-import Radium from 'Radium';
+import Radium from 'radium';
 
 let styles = {
   base: {

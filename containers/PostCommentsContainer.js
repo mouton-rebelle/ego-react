@@ -1,13 +1,14 @@
 import React, {PropTypes, Component} from 'react';
 import { connect } from 'react-redux';
-import { getCommentsForPost, saveComment } from '../actions/CommentActions';
+import { getCommentsForPost, saveComment, showCommentsForPost, hideCommentsForPost } from '../actions/CommentActions';
 import PostComments from '../components/PostComments';
 import CommentForm from '../components/CommentForm';
 import Btn from '../components/Btn';
 import _get from 'lodash/object/get';
 
 @connect(state => ({
-  commentsByPostId: state.comments.byPost
+  commentsByPostId: state.comments.byPost,
+  shownByPostId: state.comments.shownForPost
 }))
 export default class PostCommentsContainer extends Component {
 
@@ -15,31 +16,26 @@ export default class PostCommentsContainer extends Component {
     commentsByPostId : PropTypes.object,
     count            : PropTypes.number.isRequired,
     dispatch         : PropTypes.func.isRequired,
-    postId           : PropTypes.string.isRequired
+    postId           : PropTypes.string.isRequired,
+    shownByPostId    : PropTypes.array.isRequired
   };
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      visible: false
-    };
-  }
 
   toggleVisibility()
   {
-    this.setState({visible:!this.state.visible});
-    if (_get(this.props.commentsByPostId, this.props.postId, -1) === -1)
+    const { commentsByPostId, postId, dispatch, shownByPostId } = this.props;
+    const isVisible = shownByPostId.indexOf(postId) !== -1;
+    if (_get(commentsByPostId, postId, -1) === -1)
     {
-      this.loadComments();
+      dispatch(getCommentsForPost(postId));
     }
-
+    if (isVisible)
+    {
+      dispatch(hideCommentsForPost(postId));
+    } else {
+      dispatch(showCommentsForPost(postId));
+    }
   }
 
-
-  loadComments() {
-    const { postId, dispatch } = this.props;
-    dispatch(getCommentsForPost(postId));
-  }
 
   handleSubmit(postId, comment) {
     const { dispatch } = this.props;
@@ -48,10 +44,11 @@ export default class PostCommentsContainer extends Component {
   }
 
   render() {
-    const { commentsByPostId, postId, count } = this.props;
+    const { commentsByPostId, shownByPostId,  postId, count } = this.props;
+    const isVisible = shownByPostId.indexOf(postId) !== -1;
     let btnText = count ? `View ${ count } comment${ count > 1 ? 's' : '' } / leave yours` :
     'Be the first to comment';
-    if (this.state.visible)
+    if (isVisible)
     {
       btnText = 'Hide this shit';
     }
@@ -60,8 +57,8 @@ export default class PostCommentsContainer extends Component {
         <Btn
           handler={this.toggleVisibility.bind(this)}
           text={btnText} />
-        { this.state.visible && commentsByPostId[postId] ? <PostComments comments={commentsByPostId[postId]} /> : null }
-        { this.state.visible ? <CommentForm formKey={postId} onSubmit={this.handleSubmit.bind(this, postId)}/> : null }
+        { isVisible && commentsByPostId[postId] ? <PostComments comments={commentsByPostId[postId]} /> : null }
+        { isVisible ? <CommentForm formKey={postId} onSubmit={this.handleSubmit.bind(this, postId)}/> : null }
       </div>
     );
   }

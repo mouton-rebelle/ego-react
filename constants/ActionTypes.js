@@ -13,6 +13,10 @@ export const COM_SAVE_PENDING   = 'COM_SAVE_PENDING';
 export const COM_SAVE_FULFILLED = 'COM_SAVE_FULFILLED';
 export const COM_SAVE_REJECTED  = 'COM_SAVE_REJECTED';
 
+// showing / hiding comments for a post
+export const COM_SHOW_BYPOST = 'COM_SHOW_BYPOST';
+export const COM_HIDE_BYPOST = 'COM_HIDE_BYPOST';
+
 // loading comments for a post
 export const COM_LOAD_BYPOST_PENDING   = 'COM_LOAD_BYPOST_PENDING';
 export const COM_LOAD_BYPOST_FULFILLED = 'COM_LOAD_BYPOST_FULFILLED';
