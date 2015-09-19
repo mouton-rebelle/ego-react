@@ -28,6 +28,7 @@ let styles = {
 export default class Btn extends Component {
 
   static propTypes = {
+    disabled: PropTypes.bool,
     handler: PropTypes.func,
     kind : PropTypes.oneOf(['primary', 'alt']),
     text : PropTypes.string.isRequired,
@@ -36,7 +37,7 @@ export default class Btn extends Component {
 
   render() {
     const kind = this.props.kind || 'primary';
-    const { url, text, handler} = this.props;
+    const { url, text, handler, disabled} = this.props;
     if (url)
     {
       return (
@@ -47,7 +48,7 @@ export default class Btn extends Component {
         </Link>
       );
     } else {
-      return ( <button onClick={handler} style={ { ...styles.base, ...styles[kind]} }>{text}</button> );
+      return ( <button onClick={handler} disabled={disabled} style={ { ...styles.base, ...styles[kind]} }>{text}</button> );
     }
 
   }

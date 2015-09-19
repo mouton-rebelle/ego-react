@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import Btn from './Btn';
 import {connectReduxForm} from 'redux-form';
+import FormControl from './form/FormControl';
 
 function validateComment(data) {
   const errors = {};
@@ -27,13 +28,17 @@ export default class CommentForm extends Component{
   };
 
   render() {
-    const { fields: {author, text}, handleSubmit } = this.props;
+    const {  fields: {author, text}, handleSubmit } = this.props;
+    console.log(text);
     return (
       <form className="com-form" onSubmit={handleSubmit}>
-        <textarea {...text} rows="4" className="com-form__input com-form__input--textarea" />
+        <FormControl {...text}>
+          <textarea {...text} className="com-form__input com-form__input--textarea" rows="4" />
+        </FormControl>
         <br/>
         <input className="com-form__input" {...author}/><br />
-        <Btn handler={handleSubmit} kind="primary" text="add comment"/>
+        <Btn disabled={!(text.valid && text.dirty && author.valid && author.dirty)}
+         handler={handleSubmit} kind="primary" text="add comment"/>
       </form>
     );
   }
