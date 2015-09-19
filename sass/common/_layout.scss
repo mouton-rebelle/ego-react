@@ -1,0 +1,15 @@
+@import './variables';
+
+.fc{
+  display: flex;
+  align-items:stretch;
+  justify-content:stretch;
+  &__item{
+    &--grow{
+      flex-grow:1;
+    }
+  }
+}
+.mb{
+  margin-bottom: $vertical-spacing;
+}

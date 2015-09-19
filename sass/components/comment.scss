@@ -52,15 +52,37 @@
   margin:0 auto;
   padding:10px;
   max-width: 400px;
-  &__input{
+}
+.form-control{
+  border:1px solid $mid-grey;
+  background-color: $almost-white;
+  position: relative;
+  &--invalid{
+    border-color: tomato;
+  }
+  &--valid{
+    border-color: #5AFFBA;
+  }
+  &__error{
+    position: absolute;
+    text-align: right;
+    padding: $vertical-spacing;
+    font-size: 11px;
+    bottom:0;
+    left:0;
+    right:0;
+    pointer-events:none;
+    color:tomato;
+
+  }
+  input, textarea{
     border-radius: 0;
+    border:0;
     padding:4px;
     @extend %custom-font;
     font-size: 12px;
     width:100%;
-    margin-bottom: 8px;
     background-color: $almost-white;
-    border:1px solid $mid-grey;
     color:$brand-alt;
     &:hover, &:focus{
       background-color: #FFF;
@@ -68,7 +90,6 @@
     &:focus{
       outline:none;
       color:$darkest;
-      border-color: $brand-alt;
     }
   }
 }

@@ -32,13 +32,16 @@ export default class CommentForm extends Component{
     console.log(text);
     return (
       <form className="com-form" onSubmit={handleSubmit}>
-        <FormControl {...text}>
-          <textarea {...text} className="com-form__input com-form__input--textarea" rows="4" />
+        <FormControl {...text} className="mb">
+          <textarea {...text} rows="4" />
         </FormControl>
-        <br/>
-        <input className="com-form__input" {...author}/><br />
-        <Btn disabled={!(text.valid && text.dirty && author.valid && author.dirty)}
-         handler={handleSubmit} kind="primary" text="add comment"/>
+        <div className="fc">
+          <FormControl {...author} className="fc__item fc__item--grow" style={ {marginRight:'0.3rem'} }>
+            <input {...author}/>
+          </FormControl>
+          <Btn disabled={!(text.valid && text.dirty && author.valid && author.dirty)}
+           handler={handleSubmit} kind="primary" text="add comment" className="fc__item"/>
+        </div>
       </form>
     );
   }

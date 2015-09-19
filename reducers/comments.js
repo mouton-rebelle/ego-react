@@ -37,6 +37,7 @@ export default function comments(state = initialState, action) {
       let postId = com.post;
       return {
         saving:false,
+        shownForPost: state.shownForPost,
         byPost:{
           ...state.byPost,
           [postId]: [...state.byPost[postId], com]
