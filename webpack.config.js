@@ -1,3 +1,4 @@
+/*eslint-env node */
 var path = require('path');
 var webpack = require('webpack');
 var WebpackErrorNotificationPlugin = require('webpack-error-notification');
@@ -5,20 +6,19 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   devtool: 'eval!source-map',
-  entry: [
-    'webpack-dev-server/client?http://localhost:3000',
-    'webpack/hot/only-dev-server',
-    './index'
-  ],
+  entry: {
+    ego: ['webpack-dev-server/client?http://localhost:3000', 'webpack/hot/only-dev-server', './index'],
+    admin: ['webpack-dev-server/client?http://localhost:3000', 'webpack/hot/only-dev-server', './admin']
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name]_bundle.js',
     publicPath: 'http://localhost:3000/static/'
   },
   plugins: [
     new WebpackErrorNotificationPlugin('darwin'),
     new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin("styles.css")
+    new ExtractTextPlugin('styles.css')
     // new webpack.NoErrorsPlugin()
   ],
   resolve: {
