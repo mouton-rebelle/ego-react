@@ -8,7 +8,7 @@ module.exports = {
   devtool: 'eval!source-map',
   entry: {
     ego: ['webpack-dev-server/client?http://localhost:3000', 'webpack/hot/only-dev-server', './index'],
-    admin: ['webpack-dev-server/client?http://localhost:3000', 'webpack/hot/only-dev-server', './admin']
+    admin: ['webpack-dev-server/client?http://localhost:3000', 'webpack/hot/only-dev-server', './admin/index.js']
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -31,7 +31,8 @@ module.exports = {
     'fallback': path.join(__dirname, 'node_modules')
   },
   module: {
-    loaders: [{
+    loaders: [
+    {
       test: /\.js$/,
       loaders: ['react-hot', 'babel?optional[]=runtime&stage=0'],
       exclude: /node_modules/,
@@ -41,7 +42,7 @@ module.exports = {
         test: /\.scss$/,
         loader: 'style-loader!css?sourceMap!autoprefixer?browsers=last 2 version!sass?sourceMap',
         include: __dirname
-    },
+    }
     // {
     //   test: /\.css?$/,
     //   loaders: ['style', 'raw']

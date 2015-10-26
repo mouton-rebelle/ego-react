@@ -63,6 +63,21 @@ router.options('*', function *(next){
 });
 
 
+router.get('/admin/*', function *(next){
+  this.body = `<html>
+    <head>
+      <link href='http://fonts.googleapis.com/css?family=Roboto+Mono:400,300,700' rel='stylesheet' type='text/css'>
+      <title>eg0</title>
+    </head>
+    <body class="admin">
+      <div class="content" id="root">
+      </div>
+    </body>
+    <script src="http://localhost:3000/static/admin_bundle.js"></script>
+
+  </html>`;
+});
+
 router.get('*', function *(next){
   this.body = `<html>
     <head>
@@ -73,7 +88,7 @@ router.get('*', function *(next){
       <div class="content" id="root">
       </div>
     </body>
-    <script src="http://localhost:3000/static/bundle.js"></script>
+    <script src="http://localhost:3000/static/ego_bundle.js"></script>
 
   </html>`;
 });

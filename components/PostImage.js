@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import ReactDOM from 'react-dom';
 import '../sass/components/element.scss';
 import { Link } from 'react-router';
 import { debounce } from 'lodash';
@@ -61,7 +62,7 @@ export default class PostImage extends Component {
    * @return {boolean}
    */
   shouldLoad(){
-    let el  = React.findDOMNode(this);
+    let el  = ReactDOM.findDOMNode(this);
     if (el.offsetWidth !== this.state.width)
     {
       this.setState({width: el.offsetWidth});

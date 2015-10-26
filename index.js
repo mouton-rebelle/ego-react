@@ -1,10 +1,11 @@
 import './sass/index.scss';
 
-import BrowserHistory from 'react-router/lib/BrowserHistory';
+import createHistory from 'history/lib/createBrowserHistory';
 import React from 'react';
+import ReactDOM from 'react-dom';
 import EgoFrontRouter from './containers/EgoFrontRouter';
 
-React.render(
-  <EgoFrontRouter history={new BrowserHistory()} />,
+ReactDOM.render(
+  <EgoFrontRouter history={createHistory()} />,
   document.getElementById('root')
 );

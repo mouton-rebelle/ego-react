@@ -32,7 +32,6 @@ export default class EgoFrontRouter  extends Component {
     return (
       <div>
         <Provider store={store}>
-          {() =>
             <Router history={this.props.history}>
               <Route component={Layout}>
                 <Route path="/" component={PagedPosts}/>
@@ -42,9 +41,7 @@ export default class EgoFrontRouter  extends Component {
                 <Route path="/search" component={Search}/>
               </Route>
             </Router>
-          }
         </Provider>
-
       </div>
     );
   }
